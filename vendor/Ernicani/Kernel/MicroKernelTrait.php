@@ -6,6 +6,12 @@ namespace Ernicani\Kernel;
 
 use Ernicani\Routing\Router;
 use Ernicani\Routing\Route;
+
+
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
+
 use PDO;
 
 trait MicroKernelTrait
@@ -13,24 +19,51 @@ trait MicroKernelTrait
     private $router;
     private PDO $pdo;
     private $debug;
+    private EntityManager $entityManager;
 
     public function boot()
     {
         $this->loadEnvironment();
-        $this->debug = $_ENV['APP_DEBUG'] ?? false;
-        try {
-            $dns = $_ENV['DB_DRIVER'] . ':host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'];
-            $this->pdo = new PDO(
-                $dns,
-                $_ENV['DB_USER'],
-                $_ENV['DB_PASS'] ?? ''
-            );
-        } catch (\PDOException $e) {
-            echo "Database connection failed: " . $e->getMessage() . "\n";
-        }
+        $this->loadDataBase();
+        $this->loadDoctrine();
         $this->router = new Router();
         $this->loadRoutes();
         $this->handleRequest($_SERVER['REQUEST_URI']);
+    }
+    
+    public function loadDataBase()
+    {
+        try {
+            $dns = $_ENV['DB_DRIVER'] . ':host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'];
+            $options = array(
+                PDO::MYSQL_ATTR_SSL_CA => "/etc/ssl/certs/ca-certificates.crt",
+              );
+            $this->pdo = new PDO(
+                $dns,
+                $_ENV['DB_USERNAME'],
+                $_ENV['DB_PASSWORD'] ?? '',
+                $options
+            );
+        } catch (\PDOException $e) {
+            echo "Database connection failed: " . $e->getMessage() . "\n";
+        
+        }
+    }
+
+    public function loadDoctrine() 
+    {
+        $isDevMode = true;
+        $paths = [__DIR__ . '/../../../src/Entity'];
+        $config = ORMSetup::createAttributeMetadataConfiguration($paths, $isDevMode);
+        $dbParams = [
+            'driver' => 'pdo_mysql',
+            'user' => $_ENV['DB_USERNAME'],
+            'password' => $_ENV['DB_PASSWORD'],
+            'dbname' => $_ENV['DB_NAME'],
+            'host' => $_ENV['DB_HOST'],
+        ];
+        $connection = DriverManager::getConnection($dbParams, $config);
+        $this->entityManager = new EntityManager($connection, $config);
     }
 
     public function loadEnvironment()

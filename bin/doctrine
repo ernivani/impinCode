@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php
+// bin/doctrine
+
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use Doctrine\Migrations;
+use Doctrine\Migrations\Tools\Console\Command;
+use Symfony\Component\Console\Application;
+
+// Adjust this path to your actual bootstrap.php
+require __DIR__ . '/../config/bootstrap.php';
+
+// Create a new Symfony Console application
+$cli = new Application('Doctrine Command Line Interface', '3.0.1');
+
+// Pass EntityManager to ConsoleRunner
+$singleManagerProvider = new SingleManagerProvider($entityManager);
+
+// Register ORM commands
+ConsoleRunner::addCommands($cli, $singleManagerProvider);
+
+// Register Migrations commands if DependencyFactory is available
+if (isset($dependencyFactory)) {
+    $cli->addCommands([
+        new Command\DumpSchemaCommand($dependencyFactory),
+        new Command\ExecuteCommand($dependencyFactory),
+        new Command\GenerateCommand($dependencyFactory),
+        new Command\LatestCommand($dependencyFactory),
+        new Command\MigrateCommand($dependencyFactory),
+        new Command\RollupCommand($dependencyFactory),
+        new Command\StatusCommand($dependencyFactory),
+        new Command\VersionCommand($dependencyFactory),
+        new Command\DiffCommand($dependencyFactory),
+        new Command\ListCommand($dependencyFactory),
+        new Command\SyncMetadataCommand($dependencyFactory),
+    ]);
+}
+
+// Run the application
+$cli->run();
