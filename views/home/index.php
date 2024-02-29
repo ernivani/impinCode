@@ -2,4 +2,6 @@
 
 <h1>Home</h1>
 
-<?= $form ?>
+<?php foreach ($users as $user): ?>
+    <li><?php echo htmlspecialchars($user->getName(), ENT_QUOTES, 'UTF-8'); ?></li>
+<?php endforeach; ?>

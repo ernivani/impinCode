@@ -10,56 +10,35 @@ use Ernicani\Routing\Route;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMSetup;
-
-use PDO;
+use Doctrine\ORM\Tools\Setup;
 
 trait MicroKernelTrait
 {
     private $router;
-    private PDO $pdo;
     private $debug;
     private EntityManager $entityManager;
 
     public function boot()
     {
         $this->loadEnvironment();
-        $this->loadDataBase();
         $this->loadDoctrine();
         $this->router = new Router();
         $this->loadRoutes();
         $this->handleRequest($_SERVER['REQUEST_URI']);
-    }
-    
-    public function loadDataBase()
-    {
-        try {
-            $dns = $_ENV['DB_DRIVER'] . ':host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'];
-
-            $options = array(
-            );
-            if ($_ENV['SSL_CERT_PATH']) {
-                $options = array(
-                    PDO::MYSQL_ATTR_SSL_CA => $_ENV['SSL_CERT_PATH'] ,
-                  );
-            }
-            $this->pdo = new PDO(
-                $dns,
-                $_ENV['DB_USERNAME'],
-                $_ENV['DB_PASSWORD'] ?? '',
-                $options
-            );
-        } catch (\PDOException $e) {
-            echo "Database connection failed: " . $e->getMessage() . "\n";
-        
-        }
     }
 
     public function loadDoctrine() 
     {
         $isDevMode = true;
         $paths = [__DIR__ . '/../../../src/Entity'];
-        $config = ORMSetup::createAttributeMetadataConfiguration($paths, $isDevMode);
+
+        $config = Setup::createAnnotationMetadataConfiguration(
+            $paths,
+            true, // Enable development mode
+            __DIR__ . '/proxies', // Optional proxy directory path
+            null, // Custom cache implementation (optional)
+            false // Do not use simple annotation reader
+        );
         $dbParams = [
             'driver' => 'pdo_mysql',
             'user' => $_ENV['DB_USERNAME'],
@@ -125,7 +104,7 @@ trait MicroKernelTrait
     private function executeAction($action)
     {
         if (is_array($action) && count($action) === 2 && is_string($action[0])) {
-            $controller = new $action[0]($this->router);
+            $controller = new $action[0]($this->router, $this->entityManager);
             $method = $action[1];
 
             $controller->$method();

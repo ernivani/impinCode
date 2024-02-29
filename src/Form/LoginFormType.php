@@ -16,6 +16,11 @@ class LoginFormType extends AbstractType
                 'label' => 'Email',
                 'required' => true,
                 'regex' => new RegexConstraint('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', 'Invalid email address')
+            ])
+            ->add('username', TextField::class, [
+                'label' => 'Username',
+                'required' => true,
+                'regex' => new RegexConstraint('/^[a-zA-Z0-9._-]{3,}$/', 'Invalid username')
             ]);
     }
 }

@@ -10,3 +10,5 @@ vendor/symfony
 vendor/phpoption
 vendor/psr
 vendor/vlucas
+
+src/DoctrineMigrations

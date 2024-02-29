@@ -4,6 +4,7 @@
 
 namespace Ernicani\Controllers;
 
+use Doctrine\ORM\EntityManager;
 use Ernicani\Form\Form;
 use Ernicani\Form\FormBuilder;
 use Ernicani\Routing\Router;
@@ -12,10 +13,12 @@ abstract class AbstractController
 {
 
    protected $router;
+   protected EntityManager $entityManager;
 
-   public function __construct(Router $router)
+   public function __construct(Router $router, EntityManager $entityManager)
    {
        $this->router = $router;
+       $this->entityManager = $entityManager;
    }
    
 

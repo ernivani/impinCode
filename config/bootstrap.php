@@ -36,10 +36,10 @@ $migrationsConfig = new PhpFile(__DIR__ . '/../migrations.php');
 $dependencyFactory = DependencyFactory::fromEntityManager($migrationsConfig, new ExistingEntityManager($entityManager));
 
 // Debug output for entity list
-echo "List of entities: \n";
-foreach ($entityManager->getMetadataFactory()->getAllMetadata() as $metadata) {
-    echo $metadata->getName() . "\n";
-}
+// echo "List of entities: \n";
+// foreach ($entityManager->getMetadataFactory()->getAllMetadata() as $metadata) {
+//     echo $metadata->getName() . "\n";
+// }
 
 // Return EntityManager and DependencyFactory
 return [
