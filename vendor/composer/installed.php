@@ -3,7 +3,7 @@
         'name' => 'ernicani/traumas',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'a71736df9a83868ff24fd0ecf983588d13bd81ae',
+        'reference' => '8e24ddf48a6a8eaad9ef5ad28a27ebb1228b631c',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -130,7 +130,7 @@
         'ernicani/traumas' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'a71736df9a83868ff24fd0ecf983588d13bd81ae',
+            'reference' => '8e24ddf48a6a8eaad9ef5ad28a27ebb1228b631c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

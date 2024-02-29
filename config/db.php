@@ -10,8 +10,13 @@ $dotenv->load();
 
 // load ssl certificate
 $options = [
-    PDO::MYSQL_ATTR_SSL_CA => "/etc/ssl/certs/ca-certificates.crt",
 ];
+
+if ($_ENV['SSL_CERT_PATH']) {
+    $options = [
+        PDO::MYSQL_ATTR_SSL_CA => $_ENV['SSL_CERT_PATH'],
+    ];
+}
 
 return [
 

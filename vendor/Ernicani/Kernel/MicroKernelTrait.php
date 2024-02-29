@@ -35,9 +35,14 @@ trait MicroKernelTrait
     {
         try {
             $dns = $_ENV['DB_DRIVER'] . ':host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_NAME'];
+
             $options = array(
-                PDO::MYSQL_ATTR_SSL_CA => "/etc/ssl/certs/ca-certificates.crt",
-              );
+            );
+            if ($_ENV['SSL_CERT_PATH']) {
+                $options = array(
+                    PDO::MYSQL_ATTR_SSL_CA => $_ENV['SSL_CERT_PATH'] ,
+                  );
+            }
             $this->pdo = new PDO(
                 $dns,
                 $_ENV['DB_USERNAME'],
