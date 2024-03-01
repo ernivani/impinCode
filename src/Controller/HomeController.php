@@ -6,6 +6,7 @@ namespace App\Controller;
 use Ernicani\Controllers\AbstractController;
 use Ernicani\Routing\Route;
 use App\Entity\User;
+use App\Form\LoginFormType;
 
 class HomeController extends AbstractController
 {
@@ -15,14 +16,19 @@ class HomeController extends AbstractController
     #[Route(path: '/', name: 'home')]
     public function homeAction()
     {
-        // Retrieve all User entities from the database
-        // $userRepository = $this->entityManager->getRepository(User::class);
-        // $users = $userRepository->findAll();
-
-        // Pass the users to the view
         $this->render('home/index', [
             'title' => 'Page d\'accueil',
-            'lang' => 'Français',
+        ]);
+    }
+
+    #[Route(path: '/login', name: 'login')]
+    public function loginAction()
+    {
+        $form = $this->createForm(LoginFormType::class);
+
+        $this->render('home/login', [
+            'title' => 'Connexion',
+            'form' => $form->render(),
         ]);
     }
 }

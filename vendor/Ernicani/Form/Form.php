@@ -90,7 +90,7 @@ class Form
     
     private function renderFieldContainer(string $name, $field): string
     {
-        $fieldHtml = '<div '. $this->buildAttributes($field->getOptions()['attr'] ?? []) . '>';
+        $fieldHtml = '<div '. $this->buildAttributes( []) . '>';
         $fieldHtml .= $this->renderField($name, $field);
         if ($field instanceof FormField && $field->hasErrorMessage()) {
             $fieldHtml .= '<div class="error">' . htmlspecialchars($field->getErrorMessage()) . '</div>';

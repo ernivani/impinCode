@@ -4,8 +4,11 @@ namespace Ernicani\Form\Fields;
 
 class SubmitField extends FormField
 {
-    public function render($value = null)
+    public function render($value = null): string
     {
-        // Implémentez la logique de rendu pour un champ de type 'text'
+
+        $attributes = $this->buildAttributes();
+        $label = $this->options['label'] ?? '';
+        return "<button type=\"submit\" name=\"{$this->name}\" $attributes>" . $label . "</button>";
     }
 }

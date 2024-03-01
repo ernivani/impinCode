@@ -11,4 +11,8 @@ vendor/phpoption
 vendor/psr
 vendor/vlucas
 
-src/DoctrineMigrations
+src/DoctrineMigrations/*
+
+# gitignore node
+node_modules
+npm-debug.log
