@@ -9,6 +9,8 @@ vendor/graham-campbell
 vendor/symfony
 vendor/phpoption
 vendor/psr
+vendor/phpmailer
+vendor/autoload.php
 vendor/vlucas
 
 src/DoctrineMigrations/*
