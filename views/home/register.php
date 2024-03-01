@@ -11,9 +11,9 @@
             </a>
 
 
-            <p class="text-2xl font-bold text-white text-center mb-8">Connexion</p>
+            <p class="text-2xl font-bold text-white text-center mb-8">Crée ton profil</p>
             <?= $form ?>
-            <p class="text-xs text-white text-center mt-4">Tu n'as pas de compte ? <a href="<?= $path('register') ?>" class="text-light-purple hover:underline">Inscris-toi !</a></p>
+            <p class="text-xs text-white text-center mt-4">Déjà un compte ? <a href="<?= $path('login') ?>" class="text-light-purple hover:underline">Connectes-toi !</a></p>
         </card>
     </div>
 </body>

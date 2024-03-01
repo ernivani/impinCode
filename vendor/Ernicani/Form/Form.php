@@ -93,7 +93,7 @@ class Form
         $fieldHtml = '<div '. $this->buildAttributes( []) . '>';
         $fieldHtml .= $this->renderField($name, $field);
         if ($field instanceof FormField && $field->hasErrorMessage()) {
-            $fieldHtml .= '<div class="error">' . htmlspecialchars($field->getErrorMessage()) . '</div>';
+            $fieldHtml .= '<div class="text-center text-red-500 "> *' . htmlspecialchars($field->getErrorMessage()) . '</div>';
         }
         $fieldHtml .= '</div>';
         return $fieldHtml;

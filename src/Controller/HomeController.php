@@ -7,6 +7,7 @@ use Ernicani\Controllers\AbstractController;
 use Ernicani\Routing\Route;
 use App\Entity\User;
 use App\Form\LoginFormType;
+use App\Form\RegisterFormType;
 
 class HomeController extends AbstractController
 {
@@ -16,30 +17,13 @@ class HomeController extends AbstractController
     #[Route(path: '/', name: 'home')]
     public function homeAction()
     {
+
+        if (isset($_SESSION['user'])) {
+            $this->redirectToRoute('app');
+        }
         $this->render('home/index', [
             'title' => 'Page d\'accueil',
         ]);
     }
 
-    #[Route(path: '/login', name: 'login')]
-    public function loginAction()
-    {
-        $form = $this->createForm(LoginFormType::class);
-
-        $this->render('home/login', [
-            'title' => 'Connexion',
-            'form' => $form->render(),
-        ]);
-    }
-
-        #[Route(path: '/register', name: 'register')]
-    public function registerAction()
-    {
-        $form = $this->createForm(LoginFormType::class);
-
-        $this->render('home/login', [
-            'title' => 'Connexion',
-            'form' => $form->render(),
-        ]);
-    }
 }
