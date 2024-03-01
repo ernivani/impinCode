@@ -31,4 +31,15 @@ class HomeController extends AbstractController
             'form' => $form->render(),
         ]);
     }
+
+        #[Route(path: '/register', name: 'register')]
+    public function registerAction()
+    {
+        $form = $this->createForm(LoginFormType::class);
+
+        $this->render('home/login', [
+            'title' => 'Connexion',
+            'form' => $form->render(),
+        ]);
+    }
 }
