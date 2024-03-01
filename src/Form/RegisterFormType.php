@@ -4,7 +4,6 @@ namespace App\Form;
 
 use Ernicani\Form\AbstractType;
 use Ernicani\Form\Constraints\RegexConstraint;
-use Ernicani\Form\Fields\DivField;
 use Ernicani\Form\Fields\PasswordField;
 use Ernicani\Form\Fields\SubmitField;
 use Ernicani\Form\Fields\TextField;
