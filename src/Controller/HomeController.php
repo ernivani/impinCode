@@ -16,13 +16,13 @@ class HomeController extends AbstractController
     public function homeAction()
     {
         // Retrieve all User entities from the database
-        $userRepository = $this->entityManager->getRepository(User::class);
-        $users = $userRepository->findAll();
+        // $userRepository = $this->entityManager->getRepository(User::class);
+        // $users = $userRepository->findAll();
 
         // Pass the users to the view
         $this->render('home/index', [
             'title' => 'Page d\'accueil',
-            'users' => $users, // Pass the list of users to the view
+            'lang' => 'Français',
         ]);
     }
 }
