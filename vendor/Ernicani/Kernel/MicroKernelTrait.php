@@ -11,6 +11,7 @@ use Ernicani\Routing\Route;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
+use PDO;
 
 trait MicroKernelTrait
 {
@@ -39,12 +40,22 @@ trait MicroKernelTrait
             null, // Custom cache implementation (optional)
             false // Do not use simple annotation reader
         );
+        
+        $options = array(
+        );
+        if ($_ENV['SSL_CERT_PATH']) {
+            $options = array(
+                PDO::MYSQL_ATTR_SSL_CA => $_ENV['SSL_CERT_PATH'] ,
+              );
+        }
+
         $dbParams = [
             'driver' => 'pdo_mysql',
             'user' => $_ENV['DB_USERNAME'],
             'password' => $_ENV['DB_PASSWORD'],
             'dbname' => $_ENV['DB_NAME'],
             'host' => $_ENV['DB_HOST'],
+            'driverOptions' => $options,
         ];
         $connection = DriverManager::getConnection($dbParams, $config);
         $this->entityManager = new EntityManager($connection, $config);
