@@ -28,4 +28,36 @@ class AppController extends AbstractController
         ]);
     }
 
+    #[Route(path: '/profile', name: 'profile')]
+    public function profileAction()
+    {
+        if (!isset($_SESSION['user'])) {
+            $this->redirectToRoute('login');
+        }
+
+        $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
+
+        $this->render('app/profile', [
+            'title' => 'Application',
+            'user' => $user,
+        ]);
+    }
+
+    #[Route(path: '/settings', name: 'settings')]
+    public function settingsAction()
+    {
+        if (!isset($_SESSION['user'])) {
+            $this->redirectToRoute('login');
+        }
+
+        $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
+
+        $this->render('app/settings', [
+            'title' => 'Application',
+            'user' => $user,
+        ]);
+    }
+
+
+
 }
