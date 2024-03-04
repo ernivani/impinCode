@@ -6,58 +6,49 @@ namespace App\Controller;
 use Ernicani\Controllers\AbstractController;
 use Ernicani\Routing\Route;
 use App\Entity\User;
-use App\Form\LoginFormType;
-use App\Form\RegisterFormType;
 
 class AppController extends AbstractController
 {
     protected \Doctrine\ORM\EntityManager $entityManager;
 
-    #[Route(path: '/learn', name: 'app')]
-    public function appAction()
+    private function getUserOrRedirect(): ?User
     {
         if (!isset($_SESSION['user'])) {
             $this->redirectToRoute('login');
+            return null; 
         }
 
-        $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
+        return $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
+    }
 
-        $this->render('app/index', [
-            'title' => 'Application',
-            'user' => $user,
-        ]);
+    private function renderPage(string $template, string $pageTitle, string $pageName): void
+    {
+        $user = $this->getUserOrRedirect();
+
+        if ($user !== null) {
+            $this->render('app/' . $template, [
+                'title' => $pageTitle,
+                'user' => $user,
+                'page' => $pageName,
+            ]);
+        }
+    }
+
+    #[Route(path: '/learn', name: 'app')]
+    public function appAction(): void
+    {
+        $this->renderPage('index', 'Application', 'learn');
     }
 
     #[Route(path: '/profile', name: 'profile')]
-    public function profileAction()
+    public function profileAction(): void
     {
-        if (!isset($_SESSION['user'])) {
-            $this->redirectToRoute('login');
-        }
-
-        $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
-
-        $this->render('app/profile', [
-            'title' => 'Application',
-            'user' => $user,
-        ]);
+        $this->renderPage('profile', 'Profile', 'profile');
     }
 
     #[Route(path: '/settings', name: 'settings')]
-    public function settingsAction()
+    public function settingsAction(): void
     {
-        if (!isset($_SESSION['user'])) {
-            $this->redirectToRoute('login');
-        }
-
-        $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
-
-        $this->render('app/settings', [
-            'title' => 'Application',
-            'user' => $user,
-        ]);
+        $this->renderPage('settings', 'Settings', 'settings');
     }
-
-
-
 }
