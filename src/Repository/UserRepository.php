@@ -15,5 +15,25 @@ class UserRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+
+    public function findOneByEmail($email)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findOneByUsername($username)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.username = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }
 

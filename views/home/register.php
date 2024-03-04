@@ -1,6 +1,6 @@
 <?php include_once __DIR__ . '/../_base.php'; ?>
 
-<body class="text-gray-800 font-inter bg-neutral-950">
+<body class="text-gray-800 font-inter bg-neutral-950 overflow-hidden">
     <div class="h-screen flex items-center justify-center px-4">
         <card class="w-full max-w-sm p-8 bg-neutral-800 rounded-2xl relative">
 

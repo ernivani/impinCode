@@ -34,6 +34,7 @@ class RegistrationController extends AbstractController
                 $this->entityManager->flush(); 
 
                 $_SESSION['user'] = $user->getId();
+                $this->addFlash('success', 'Vous êtes connecté');
                 $this->redirectToRoute('home');
             } else {
                 $this->addFlash('error', 'Identifiant ou mot de passe incorrect');
@@ -54,6 +55,17 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
+            if ($this->entityManager->getRepository(User::class)->findOneByEmail($data['email'])) {
+                $this->addFlash('error', 'Cet email est déjà utilisé');
+                return $this->redirectToRoute('register');
+            }
+            
+            if ($this->entityManager->getRepository(User::class)->findOneByUsername($data['username'])) {
+                $this->addFlash('error', 'Ce nom d\'utilisateur est déjà utilisé');
+                return $this->redirectToRoute('register');
+            }
+
+
             $user = new User();
             $user->setEmail($data['email'])
                 ->setUsername($data['username'])
@@ -66,6 +78,8 @@ class RegistrationController extends AbstractController
             $this->entityManager->flush();
 
             $_SESSION['user'] = $user->getId();
+
+            $this->addFlash('success', 'Inscription réussie');
             $this->redirectToRoute('home');
         }
 
@@ -78,8 +92,13 @@ class RegistrationController extends AbstractController
     #[Route(path: '/logout', name: 'logout')]
     public function logoutAction()
     {
+        if (!isset($_SESSION['user'])) {
+            $this->redirectToRoute('login');
+        }
+        $this->addFlash('success', 'Vous avez été déconnecté');
         unset($_SESSION['user']);
-        $this->redirectToRoute('home');
+        $this->redirectToRoute('login');
+
     }
 
 }

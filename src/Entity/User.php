@@ -23,7 +23,11 @@ class User
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $urlimage;
     /**
      * @ORM\Column(type="string", length=255)
      */

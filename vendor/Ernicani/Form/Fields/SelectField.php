@@ -11,7 +11,6 @@ class SelectField extends FormField
         $isRequired = $this->options['required'] ?? false;
         $requiredHtml = $isRequired ? '<span style="color: red;">*</span>' : '';
         $labelHtml = $label ? "<label for=\"{$this->name}\"> $requiredHtml$label</label>" : '';
-        $valueHtml = isset($value) ? htmlspecialchars($value) : '';
         $options = $this->options['options'] ?? [];
         $optionsHtml = '';
 

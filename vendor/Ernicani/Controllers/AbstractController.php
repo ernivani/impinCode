@@ -31,9 +31,13 @@ abstract class AbstractController
                 return $this->generateUrl($routeName);
             };
 
+            $params['flash'] = $_SESSION['flash'] ?? [];
+
             extract($params);
 
             include $viewPath;
+
+            unset($_SESSION['flash']);
         } else {
             echo "Error: View file not found - $viewPath";
         }

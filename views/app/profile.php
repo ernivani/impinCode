@@ -1,6 +1,6 @@
 <?php include_once __DIR__ . '/../_base.php'; ?>
 
-<body class="text-gray-800 font-inter bg-neutral-950">
+<body class="text-gray-800 font-inter bg-neutral-950 overflow-hidden">
     <div class="flex h-screen overflow-hidden">
         <?php include_once __DIR__ . '/_sidebar.php'; ?>
         

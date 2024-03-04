@@ -12,6 +12,8 @@ class PasswordField extends FormField
         $requiredHtml = $isRequired ? '<span style="color: red;">*</span>' : '';
         $labelHtml = $label ? "<label for=\"{$this->name}\"> $requiredHtml$label</label>" : '';
 
-        return "$labelHtml<input type=\"password\" name=\"{$this->name}\" $attributes value=\"" . htmlspecialchars($value) . "\">";
+        $valueHtml = isset($value) && $value ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false) : '';
+
+        return "$labelHtml<input type=\"password\" name=\"{$this->name}\" $attributes value=\"" . $valueHtml . "\">";
     }
 }
