@@ -65,4 +65,9 @@ abstract class AbstractController
         header("Location: $url");
         exit;
     }
+
+    protected function addFlash(string $type, string $message)
+    {
+        $_SESSION['flash'][$type] = $message;
+    }
 }

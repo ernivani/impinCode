@@ -25,9 +25,9 @@ class Question
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Leçon", inversedBy="questions")
+     * @ORM\ManyToOne(targetEntity="Lesson", inversedBy="questions")
      */
-    private $leçon;
+    private $Lesson;
 
     /**
      * @ORM\OneToMany(targetEntity="Answer", mappedBy="question")
@@ -40,4 +40,69 @@ class Question
     }
 
     // Getters and Setters
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getLesson(): ?Lesson
+    {
+        return $this->Lesson;
+    }
+
+    public function setLesson(?Lesson $Lesson): self
+    {
+        $this->Lesson = $Lesson;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Answer[]
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(Answer $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers[] = $answer;
+            $answer->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(Answer $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
+            // set the owning side to null (unless already changed)
+            if ($answer->getQuestion() === $this) {
+                $answer->setQuestion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->content;
+    }
 }

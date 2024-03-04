@@ -3,6 +3,8 @@
 // src/Controller/HomeController.php
 namespace App\Controller;
 
+use App\Entity\Lesson;
+use App\Entity\Leçon;
 use Ernicani\Controllers\AbstractController;
 use Ernicani\Routing\Route;
 use App\Entity\User;
@@ -15,29 +17,41 @@ class AppController extends AbstractController
     {
         if (!isset($_SESSION['user'])) {
             $this->redirectToRoute('login');
-            return null; 
+            return null;
         }
 
         return $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
     }
 
-    private function renderPage(string $template, string $pageTitle, string $pageName): void
+    private function renderPage(string $template, string $pageTitle, string $pageName, array $data = []): void
     {
         $user = $this->getUserOrRedirect();
 
         if ($user !== null) {
-            $this->render('app/' . $template, [
+
+            $sendedData = [
                 'title' => $pageTitle,
                 'user' => $user,
                 'page' => $pageName,
-            ]);
+                'data' => $data,
+            ];
+            $this->render('app/' . $template, $sendedData);
+        } else {
+            unset($_SESSION['user']);
+            $this->redirectToRoute('login');
         }
     }
 
     #[Route(path: '/learn', name: 'app')]
     public function appAction(): void
     {
-        $this->renderPage('index', 'Application', 'learn');
+
+        $lessons = $this->entityManager->getRepository(Lesson::class)->findAll();
+
+        
+        $this->renderPage('index', 'Application', 'learn', [
+            'lessons' => $lessons,
+        ]);
     }
 
     #[Route(path: '/profile', name: 'profile')]

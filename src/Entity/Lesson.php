@@ -1,5 +1,5 @@
 <?php
-// src/Entity/Leçon.php
+// src/Entity/Lesson.php
 
 namespace App\Entity;
 
@@ -8,10 +8,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="App\Repository\LeçonRepository")
- * @ORM\Table(name="leçons")
+ * @ORM\Entity(repositoryClass="App\Repository\LessonRepository")
+ * @ORM\Table(name="lessons")
  */
-class Leçon
+class Lesson
 {
     /**
      * @ORM\Id
@@ -31,7 +31,7 @@ class Leçon
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="leçons")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="lessons")
      */
     private $user;
 
@@ -41,7 +41,7 @@ class Leçon
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="Question", mappedBy="leçon")
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="Lesson")
      */
     private $questions;
 
@@ -55,6 +55,8 @@ class Leçon
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -116,5 +118,22 @@ class Leçon
         $this->updatedAt = $updatedAt;
         return $this;
     }
+
+    public function getQuestions()
+    {
+        return $this->questions;
+    }
+
+    public function setQuestions($questions): self
+    {
+        $this->questions = $questions;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
+    }
+    
 
 }

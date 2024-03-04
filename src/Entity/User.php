@@ -6,7 +6,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Entity\Leçon;
+use App\Entity\Lesson;
 
 
 /**
@@ -16,6 +16,7 @@ use App\Entity\Leçon;
  */
 class User
 {
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -39,14 +40,14 @@ class User
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="Leçon", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Lesson", mappedBy="user")
      */
-    private $leçons;
+    private $lessons;
 
     /**
-     * @ORM\OneToOne(targetEntity="Leçon")
+     * @ORM\OneToOne(targetEntity="Lesson")
      */
-    private $lastLeçon;
+    private $lastLesson;
 
     /**
      * @ORM\Column(type="datetime")
@@ -78,11 +79,30 @@ class User
 
     public function __construct()
     {
-        // Initialize any ArrayCollection properties here
-        $this->leçons = new ArrayCollection();
+        $this->lessons = new ArrayCollection();
         $this->isActive = true; // Set default active status
+        $this->roles = ['ROLE_USER']; // Set default role
     }
 
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new \DateTime("now");
+        $this->updatedAt = new \DateTime("now");
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate(): void
+    {
+        $this->updatedAt = new \DateTime("now");
+    }
+    
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -186,26 +206,26 @@ class User
         return $this;
     }
 
-    public function getLeçons(): Collection
+    public function getLessons(): Collection
     {
-        return $this->leçons;
+        return $this->lessons;
     }
 
-    public function setLeçons(?Leçon $leçons): self
+    public function setLessons(?Lesson $lessons): self
     {
-        $this->leçons = $leçons;
+        $this->lessons = $lessons;
         return $this;
     }
 
     
-    public function getLastLeçon(): ?Leçon
+    public function getLastLesson(): ?Lesson
     {
-        return $this->lastLeçon;
+        return $this->lastLesson;
     }
 
-    public function setLastLeçon(?Leçon $lastLeçon): self
+    public function setLastLesson(?Lesson $lastLesson): self
     {
-        $this->lastLeçon = $lastLeçon;
+        $this->lastLesson = $lastLesson;
         return $this;
     }
 

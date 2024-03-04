@@ -17,19 +17,26 @@ class RegistrationController extends AbstractController
     #[Route(path: '/login', name: 'login')]
     public function loginAction()
     {
+
+        if (isset($_SESSION['user'])) {
+            $this->redirectToRoute('home');
+        }
+
         $form = $this->createForm(LoginFormType::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
             $user = $this->entityManager->getRepository(User::class)->findOneByEmailOrUsername($data['identifiant']);
-            echo '<pre>';
-            var_dump($user);
-            echo '</pre>';
 
             if ($user && password_verify($data['password'], $user->getPassword())) {
+                $user->setLastLogin(new \DateTime()); 
+                $this->entityManager->flush(); 
+
                 $_SESSION['user'] = $user->getId();
                 $this->redirectToRoute('home');
+            } else {
+                $this->addFlash('error', 'Identifiant ou mot de passe incorrect');
             }
         }
 
@@ -48,9 +55,12 @@ class RegistrationController extends AbstractController
             $data = $form->getData();
 
             $user = new User();
-            $user->setEmail($data['email']);
-            $user->setUsername($data['username']);
-            $user->setPassword(password_hash($data['password'], PASSWORD_DEFAULT));
+            $user->setEmail($data['email'])
+                ->setUsername($data['username'])
+                ->setPassword(password_hash($data['password'], PASSWORD_DEFAULT))
+                ->setCreatedAt(new \DateTime())
+                ->setUpdatedAt(new \DateTime())
+                ->setLastLogin(new \DateTime()); 
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();
@@ -68,7 +78,7 @@ class RegistrationController extends AbstractController
     #[Route(path: '/logout', name: 'logout')]
     public function logoutAction()
     {
-        session_destroy();
+        unset($_SESSION['user']);
         $this->redirectToRoute('home');
     }
 
