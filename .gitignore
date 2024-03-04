@@ -13,7 +13,7 @@ vendor/phpmailer
 vendor/autoload.php
 vendor/vlucas
 
-src/DoctrineMigrations/*
+src/DoctrineMigrations/*.php
 
 # gitignore node
 node_modules
