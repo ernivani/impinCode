@@ -44,6 +44,60 @@ class Section
         $this->units = new ArrayCollection();
     }
 
-    // Getters and Setters
-    // Add your getters and setters here
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    public function getLesson()
+    {
+        return $this->lesson;
+    }
+
+    public function setLesson($lesson)
+    {
+        $this->lesson = $lesson;
+    }
+
+    public function getUnits()
+    {
+        return $this->units;
+    }
+
+    public function setUnits($units)
+    {
+        $this->units = $units;
+    }
+
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function addUnit($unit)
+    {
+        $this->units[] = $unit;
+    }
+
+    public function removeUnit($unit)
+    {
+        $this->units->removeElement($unit);
+    }
+
+    
 }

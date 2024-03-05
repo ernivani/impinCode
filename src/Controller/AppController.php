@@ -43,10 +43,14 @@ class AppController extends AbstractController
     }
 
     #[Route(path: '/learn', name: 'app')]
-    public function appAction(): void
+    public function appAction()
     {
 
-        $lessons = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLessons();
+        $lessons = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastLesson();
+        
+        if ($lessons === null) {
+            return $this->redirectToRoute('lesson_select');
+        }
 
         // for ($i = 0; $i < 10; $i++) {
         //     $lesson = new Lesson();

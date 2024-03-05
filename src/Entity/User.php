@@ -234,6 +234,12 @@ class User
         return $this;
     }
 
+    public function deleteLastLesson()
+    {
+        $this->lastLesson = null;
+        return $this;
+    }
+
 
     public function __toString()
     {

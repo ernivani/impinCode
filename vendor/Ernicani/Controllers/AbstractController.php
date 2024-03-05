@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Ernicani\Form\Form;
 use Ernicani\Form\FormBuilder;
 use Ernicani\Routing\Router;
+use App\Entity\User;
 
 abstract class AbstractController
 {
@@ -77,9 +78,14 @@ abstract class AbstractController
         return $form;
     }
 
-    protected function redirectToRoute(string $routeName)
+    protected function redirectToRoute(string $routeName, array $params = [])
     {
-        $url = $this->generateUrl($routeName);
+        $url = $this->router->getPathByName($routeName);
+
+        foreach ($params as $key => $value) {
+            $url = str_replace("{" . $key . "}", $value, $url);
+        }
+        
 
         header("Location: $url");
         exit;
@@ -88,5 +94,20 @@ abstract class AbstractController
     protected function addFlash(string $type, string $message)
     {
         $_SESSION['flash'][$type] = $message;
+    }
+
+    protected function isGranted(string $role)
+    {
+        if (!isset($_SESSION['user'])) {
+            return false;
+        }
+
+        $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
+
+        if (!$user) {
+            return false;
+        }
+
+        return in_array($role, $user->getRoles());
     }
 }
