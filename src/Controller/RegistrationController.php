@@ -41,7 +41,7 @@ class RegistrationController extends AbstractController
             }
         }
 
-        $this->render('home/login', [
+        return $this->render('home/login', [
             'title' => 'Connexion',
             'form' => $form->render(),
         ]);
@@ -50,6 +50,11 @@ class RegistrationController extends AbstractController
     #[Route(path: '/register', name: 'register')]
     public function registerAction()
     {
+        if (isset($_SESSION['user'])) {
+            $this->redirectToRoute('home');
+        }
+
+        
         $form = $this->createForm(RegisterFormType::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,7 +88,7 @@ class RegistrationController extends AbstractController
             $this->redirectToRoute('home');
         }
 
-        $this->render('home/register', [
+        return $this->render('home/register', [
             'title' => 'Inscription',
             'form' => $form->render(),
         ]);
@@ -97,7 +102,7 @@ class RegistrationController extends AbstractController
         }
         $this->addFlash('success', 'Vous avez été déconnecté');
         unset($_SESSION['user']);
-        $this->redirectToRoute('login');
+        return $this->redirectToRoute('login');
 
     }
 

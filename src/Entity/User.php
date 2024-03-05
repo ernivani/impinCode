@@ -28,6 +28,7 @@ class User
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $urlimage;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -44,7 +45,7 @@ class User
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="Lesson", mappedBy="user")
+     * @ORM\ManyToMany(targetEntity="Lesson", inversedBy="users")
      */
     private $lessons;
 

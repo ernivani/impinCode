@@ -21,7 +21,7 @@ class HomeController extends AbstractController
         if (isset($_SESSION['user'])) {
             $this->redirectToRoute('app');
         }
-        $this->render('home/index', [
+        return $this->render('home/index', [
             'title' => 'Page d\'accueil',
         ]);
     }

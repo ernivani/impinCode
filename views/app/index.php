@@ -6,8 +6,8 @@
 
         <main class="flex-1 overflow-y-auto">
             <div class="px-4 py-6 sm:px-6 lg:px-8">
-                <div class="mx-auto bg-gray-500 shadow sm:rounded-lg p-6 max-w-4xl">
-                    <h1 class="text-2xl font-semibold text-gray-900 text-center">Lessons</h1>
+                <div class="mx-auto  shadow sm:rounded-lg p-6 max-w-4xl">
+                    <h1 class="text-2xl font-semibold text-white">Bienvenue sur votre espace de formation</h1>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                             <?php foreach ($data['lessons'] as $lesson): ?>
@@ -16,7 +16,8 @@
                                         <h2 class="text-lg font-semibold text-gray-900"><?= htmlspecialchars($lesson->getTitle()) ?></h2>
                                         <p class="mt-4 text-sm text-neutral-700"><?= htmlspecialchars($lesson->getDescription()) ?></p>
                                         <div class="mt-6">
-                                            <a href="#<?= htmlspecialchars($lesson->getId()) ?>" class="block bg-neutral-800 rounded-md text-white text-center py-3 px-4 hover:bg-neutral-700 transition duration-150">
+                                            <a href="<?= $path('lesson_id', ['id' => $lesson->getId()]) ?>"
+                                            class="block bg-neutral-800 rounded-md text-white text-center py-3 px-4 hover:bg-neutral-700 transition duration-150">
                                                 Commencer
                                             </a>
                                         </div>

@@ -1,13 +1,12 @@
 <?php
-
+// src/Entity/Question.php
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\QuestionRepository")
  * @ORM\Table(name="questions")
  */
 class Question
@@ -22,12 +21,12 @@ class Question
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $content;
+    private $content; // Assuming 'content' holds the question text
 
     /**
-     * @ORM\ManyToOne(targetEntity="Lesson", inversedBy="questions")
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="questions")
      */
-    private $Lesson;
+    private $course;
 
     /**
      * @ORM\OneToMany(targetEntity="Answer", mappedBy="question")
@@ -39,8 +38,7 @@ class Question
         $this->answers = new ArrayCollection();
     }
 
-    // Getters and Setters
-
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -58,22 +56,19 @@ class Question
         return $this;
     }
 
-    public function getLesson(): ?Lesson
+    public function getCourse(): ?Course
     {
-        return $this->Lesson;
+        return $this->course;
     }
 
-    public function setLesson(?Lesson $Lesson): self
+    public function setCourse(?Course $course): self
     {
-        $this->Lesson = $Lesson;
+        $this->course = $course;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Answer[]
-     */
-    public function getAnswers(): Collection
+    public function getAnswers(): ArrayCollection
     {
         return $this->answers;
     }
@@ -100,9 +95,5 @@ class Question
 
         return $this;
     }
-
-    public function __toString()
-    {
-        return $this->content;
-    }
 }
+

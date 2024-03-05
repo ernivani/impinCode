@@ -69,14 +69,16 @@ trait MicroKernelTrait
 
     public function handleRequest($uri)
     {
-        $action = $this->router->match($uri);
-
+        [$action, $params] = $this->router->match($uri); // Décomposer le tableau retourné par match
+    
         if ($action) {
-            $this->executeAction($action);
+            $this->executeAction(array_merge([$action], [$params])); // Passer le tableau d'action et les paramètres à executeAction
         } else {
             echo "404 Not Found\n";
         }
     }
+    
+    
 
     private function loadRoutes()
     {
@@ -112,15 +114,22 @@ trait MicroKernelTrait
         }
     }
 
-    private function executeAction($action)
+    private function executeAction($actionWithParams)
     {
-        if (is_array($action) && count($action) === 2 && is_string($action[0])) {
-            $controller = new $action[0]($this->router, $this->entityManager);
-            $method = $action[1];
-
-            $controller->$method();
+        // $actionWithParams[0] est l'action, $actionWithParams[1] sont les paramètres
+        if (is_array($actionWithParams[0]) && is_string($actionWithParams[0][0])) {
+            $controller = new $actionWithParams[0][0]($this->router, $this->entityManager);
+            $method = $actionWithParams[0][1];
+    
+            if (method_exists($controller, $method)) {
+                // Appeler la méthode sur le contrôleur avec les paramètres
+                call_user_func_array([$controller, $method], $actionWithParams[1]);
+            } else {
+                echo "Method $method not found in controller.\n";
+            }
         } else {
             echo "Invalid action format\n";
         }
     }
+    
 }

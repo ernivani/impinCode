@@ -37,7 +37,7 @@ class RegisterFormType extends AbstractType
                     'placeholder' => 'Mot de passe',
                     'class' => 'border-2 border-neutral-800 w-full py-3 rounded-b-lg focus:outline-none pl-4 bg-neutral-700 text-slate-300',
                 ],
-                'regex' => new RegexConstraint('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial'),
+                // 'regex' => new RegexConstraint('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial'),
             ])
             ->add('submit', SubmitField::class, [
                 'label' => 'CRÉER MON COMPTE',

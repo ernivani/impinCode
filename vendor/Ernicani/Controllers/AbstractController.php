@@ -27,10 +27,25 @@ abstract class AbstractController
         $viewPath = __DIR__ . '/../../../views/' . $view . '.php';
         
         if (file_exists($viewPath)) {
-            $params['path'] = function($routeName) {
-                return $this->generateUrl($routeName);
+            $params['path'] = function ($routeName, $params = [])
+            {
+                // Supposons que $router est une instance de votre classe Router disponible globalement
+                global $router; // Si vous utilisez un conteneur de services, obtenez $router à partir de là.
+            
+                try {
+                    $path = $this->router->getPathByName($routeName); // Obtenez le modèle de chemin de la route par son nom.
+                    
+                    // Remplacer les paramètres dans le chemin de la route
+                    foreach ($params as $key => $value) {
+                        $path = str_replace("{" . $key . "}", $value, $path);
+                    }
+            
+                    return $path;
+                } catch (\Exception $e) {
+                    // Gérer l'exception ou retourner un chemin par défaut
+                    return '/';
+                }
             };
-
             $params['flash'] = $_SESSION['flash'] ?? [];
 
             extract($params);

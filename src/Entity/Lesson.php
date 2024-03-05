@@ -41,9 +41,9 @@ class Lesson
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="Question", mappedBy="Lesson")
+     * @ORM\OneToMany(targetEntity="Section", mappedBy="Lesson")
      */
-    private $questions;
+    private $sections;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -54,7 +54,7 @@ class Lesson
 
     public function __construct()
     {
-        $this->questions = new ArrayCollection();
+        $this->sections = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
     }
@@ -119,14 +119,14 @@ class Lesson
         return $this;
     }
 
-    public function getQuestions()
+    public function getSections()
     {
-        return $this->questions;
+        return $this->sections;
     }
 
-    public function setQuestions($questions): self
+    public function setSections($sections): self
     {
-        $this->questions = $questions;
+        $this->sections = $sections;
         return $this;
     }
 

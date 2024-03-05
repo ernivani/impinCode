@@ -1,10 +1,11 @@
 <?php 
+// src/Entity/Answer.php
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AnswerRepository")
  * @ORM\Table(name="answers")
  */
 class Answer
@@ -19,19 +20,19 @@ class Answer
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $content;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isCorrect;
+    private $content; // Assuming 'content' holds the answer text
 
     /**
      * @ORM\ManyToOne(targetEntity="Question", inversedBy="answers")
      */
     private $question;
 
-    // Getters and Setters
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isCorrect;
+
+    
 
     public function getId(): ?int
     {
@@ -50,18 +51,6 @@ class Answer
         return $this;
     }
 
-    public function getIsCorrect(): ?bool
-    {
-        return $this->isCorrect;
-    }
-
-    public function setIsCorrect(bool $isCorrect): self
-    {
-        $this->isCorrect = $isCorrect;
-
-        return $this;
-    }
-
     public function getQuestion(): ?Question
     {
         return $this->question;
@@ -74,8 +63,15 @@ class Answer
         return $this;
     }
 
-    public function __toString()
+    public function getIsCorrect(): ?bool
     {
-        return $this->content;
+        return $this->isCorrect;
+    }
+
+    public function setIsCorrect(bool $isCorrect): self
+    {
+        $this->isCorrect = $isCorrect;
+
+        return $this;
     }
 }

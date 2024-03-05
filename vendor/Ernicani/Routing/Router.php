@@ -17,11 +17,11 @@ class Router
     {
         foreach ($this->routes as $route) {
             if ($route->matches($uri)) {
-                return $route->getAction();
+                return [$route->getAction(), $route->getParams()];
             }
         }
 
-        return null;
+        return [null, null];
     }
 
     public function getPathByName($name)

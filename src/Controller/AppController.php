@@ -23,7 +23,7 @@ class AppController extends AbstractController
         return $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
     }
 
-    private function renderPage(string $template, string $pageTitle, string $pageName, array $data = []): void
+    private function renderPage(string $template, string $pageTitle, string $pageName, array $data = []) 
     {
         $user = $this->getUserOrRedirect();
 
@@ -35,10 +35,10 @@ class AppController extends AbstractController
                 'page' => $pageName,
                 'data' => $data,
             ];
-            $this->render('app/' . $template, $sendedData);
+            return $this->render('app/' . $template, $sendedData);
         } else {
             unset($_SESSION['user']);
-            $this->redirectToRoute('login');
+            return $this->redirectToRoute('login');
         }
     }
 
@@ -46,8 +46,18 @@ class AppController extends AbstractController
     public function appAction(): void
     {
 
-        $lessons = $this->entityManager->getRepository(Lesson::class)->findAll();
+        $lessons = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLessons();
 
+        // for ($i = 0; $i < 10; $i++) {
+        //     $lesson = new Lesson();
+        //     $lesson->setTitle('Leçon ' . $i)
+        //         ->setDescription('Description de la leçon ' . $i);
+            
+        //     $this->entityManager->persist($lesson);
+        //     $this->entityManager->flush();
+                
+        //     $lessons[] = $lesson;
+        // }
         
         $this->renderPage('index', 'Application', 'learn', [
             'lessons' => $lessons,
@@ -65,4 +75,40 @@ class AppController extends AbstractController
     {
         $this->renderPage('settings', 'Settings', 'settings');
     }
+
+    #[Route(path: '/lesson', name: 'lesson')]
+    public function lessonListAction(): void
+    {
+        $userLastLesson = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastLesson();
+
+        if ($userLastLesson === null) {
+
+            echo "Aucune leçon n'a été commencée";
+            exit;
+        }
+        
+        $this->renderPage('lesson/index', 'Leçon', 'lesson', [
+            'lesson' => $userLastLesson,
+        ]);
+    }
+
+    #[Route(path: '/lesson/{id}', name: 'lesson_id')]
+    public function lessonAction(int $id): void
+    {
+        $lesson = $this->entityManager->getRepository(Lesson::class)->find($id);
+
+        if ($lesson === null) {
+            
+
+            $this->addFlash('error', 'La leçon demandée n\'existe pas');
+            $this->redirectToRoute('app');
+        }
+
+        $this->renderPage('lesson/index', $lesson->getTitle(), 'lesson', [
+            'lesson' => $lesson,
+        ]);
+
+       
+    }
+    
 }
