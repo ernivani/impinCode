@@ -67,10 +67,10 @@ class Section extends \App\Entity\Section implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'lesson', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'units', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'updatedAt'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'course', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'units', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'updatedAt'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'lesson', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'units', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'updatedAt'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'course', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'units', '' . "\0" . 'App\\Entity\\Section' . "\0" . 'updatedAt'];
     }
 
     /**
@@ -217,23 +217,23 @@ class Section extends \App\Entity\Section implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getLesson()
+    public function getCourse()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLesson', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCourse', []);
 
-        return parent::getLesson();
+        return parent::getCourse();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setLesson($lesson)
+    public function setCourse($course)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLesson', [$lesson]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCourse', [$course]);
 
-        return parent::setLesson($lesson);
+        return parent::setCourse($course);
     }
 
     /**

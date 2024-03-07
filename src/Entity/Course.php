@@ -1,12 +1,13 @@
-<?php 
-
+<?php
 // src/Entity/Course.php
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
+ * @ORM\Entity
  * @ORM\Entity(repositoryClass="App\Repository\CourseRepository")
  * @ORM\Table(name="courses")
  */
@@ -25,75 +26,99 @@ class Course
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Unit", inversedBy="courses")
+     * @ORM\Column(type="text")
      */
-    private $unit;
+    private $description;
+
 
     /**
-     * @ORM\OneToMany(targetEntity="Question", mappedBy="course")
+     * @ORM\Column(type="datetime")
      */
-    private $questions;
+    private $createdAt;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Section", mappedBy="course")
+     */
+    private $sections;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    // Getters and Setters
 
     public function __construct()
     {
-        $this->questions = new ArrayCollection();
+        $this->sections = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
-
 
     public function getId(): ?int
     {
         return $this->id;
     }
-    
+
     public function getTitle(): ?string
     {
         return $this->title;
     }
-    
+
     public function setTitle(string $title): self
     {
         $this->title = $title;
-    
         return $this;
     }
-    
-    public function getUnit(): ?Unit
-    {
-        return $this->unit;
-    }
-    
-    public function setUnit(?Unit $unit): self
-    {
-        $this->unit = $unit;
-    
-        return $this;
-    }
-    
-    public function getQuestions(): ArrayCollection
-    {
-        return $this->questions;
-    }
-    
-    public function addQuestion(Question $question): self
-    {
-        if (!$this->questions->contains($question)) {
-            $this->questions[] = $question;
-            $question->setCourse($this);
-        }
-    
-        return $this;
-    }
-    
-    public function removeQuestion(Question $question): self
-    {
-        if ($this->questions->contains($question)) {
-            $this->questions->removeElement($question);
-            if ($question->getCourse() === $this) {
-                $question->setCourse(null);
-            }
-        }
-    
-        return $this;
-    }
-}
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function getSections()
+    {
+        return $this->sections;
+    }
+
+    public function setSections($sections): self
+    {
+        $this->sections = $sections;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
+    }
+    
+
+}

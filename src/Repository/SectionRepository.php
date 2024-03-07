@@ -7,10 +7,10 @@ use Doctrine\ORM\EntityRepository;
 
 class SectionRepository extends EntityRepository
 {
-    public function findByLessonId(int $id)
+    public function findByCourseId(int $id)
     {
         return $this->createQueryBuilder('s')
-            ->where('s.lesson = :id')
+            ->where('s.course = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult();

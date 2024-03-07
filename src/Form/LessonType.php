@@ -10,7 +10,7 @@ use Ernicani\Form\Fields\SubmitField;
 use Ernicani\Form\FormBuilder;
 use Ernicani\Form\Fields\TextField;
 
-class LessonType extends AbstractType
+class LessonType     extends AbstractType
 {
     public function buildForm(FormBuilder $formBuilder, array $options)
     {
@@ -23,13 +23,6 @@ class LessonType extends AbstractType
                 ],
             ])
             
-            ->add('description', TextField::class, [
-                'label' => 'Description',
-                'required' => true,
-                'attr' => [ 
-                    'class' => 'border-2 border-neutral-800 w-full py-3 rounded-lg focus:outline-none pl-4 bg-neutral-700 text-slate-300',
-                ],
-            ])
             ->add('submit', SubmitField::class, [
                 'label' => 'Ajouter',
                 'attr' => [

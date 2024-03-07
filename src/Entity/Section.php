@@ -25,9 +25,9 @@ class Section
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Lesson", inversedBy="sections")
+     * @ORM\ManyToOne(targetEntity="Course", inversedBy="sections")
      */
-    private $lesson;
+    private $course;
 
     /**
      * @ORM\OneToMany(targetEntity="Unit", mappedBy="section")
@@ -59,14 +59,14 @@ class Section
         $this->title = $title;
     }
 
-    public function getLesson()
+    public function getCourse()
     {
-        return $this->lesson;
+        return $this->course;
     }
 
-    public function setLesson($lesson)
+    public function setCourse($course)
     {
-        $this->lesson = $lesson;
+        $this->course = $course;
     }
 
     public function getUnits()

@@ -7,9 +7,11 @@ use Doctrine\ORM\EntityRepository;
 
 class LessonRepository extends EntityRepository
 {
-    public function findAll()
+    public function findByUnitId(int $id)
     {
         return $this->createQueryBuilder('l')
+            ->where('l.unit = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult();
     }

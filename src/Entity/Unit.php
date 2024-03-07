@@ -31,13 +31,13 @@ class Unit
     private $section;
 
     /**
-     * @ORM\OneToMany(targetEntity="Course", mappedBy="unit")
+     * @ORM\OneToMany(targetEntity="Lesson", mappedBy="unit")
      */
-    private $courses;
+    private $lessons;
 
     public function __construct()
     {
-        $this->courses = new ArrayCollection();
+        $this->lessons = new ArrayCollection();
     }
 
     
@@ -70,27 +70,27 @@ class Unit
         return $this;
     }
 
-    public function getCourses()
+    public function getLessons()
     {
-        return $this->courses;
+        return $this->lessons;
     }
 
-    public function addCourse(Course $course): self
+    public function addLesson(Lesson $lesson): self
     {
-        if (!$this->courses->contains($course)) {
-            $this->courses[] = $course;
-            $course->setUnit($this);
+        if (!$this->lessons->contains($lesson)) {
+            $this->lessons[] = $lesson;
+            $lesson->setUnit($this);
         }
 
         return $this;
     }
 
-    public function removeCourse(Course $course): self
+    public function removeLesson(Lesson $lesson): self
     {
-        if ($this->courses->contains($course)) {
-            $this->courses->removeElement($course);
-            if ($course->getUnit() === $this) {
-                $course->setUnit(null);
+        if ($this->lessons->contains($lesson)) {
+            $this->lessons->removeElement($lesson);
+            if ($lesson->getUnit() === $this) {
+                $lesson->setUnit(null);
             }
         }
 
@@ -99,4 +99,4 @@ class Unit
 
 }
 
-// Continue creating Course, Question, and Answer entities similar to above
+// Continue creating Lesson, Question, and Answer entities similar to above

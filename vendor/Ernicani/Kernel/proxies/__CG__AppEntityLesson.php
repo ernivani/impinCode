@@ -67,10 +67,10 @@ class Lesson extends \App\Entity\Lesson implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'user', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'createdAt', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'sections', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'updatedAt'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'unit', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'questions'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'user', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'createdAt', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'sections', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'updatedAt'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'unit', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'questions'];
     }
 
     /**
@@ -217,122 +217,56 @@ class Lesson extends \App\Entity\Lesson implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getDescription(): ?string
+    public function getUnit(): ?\App\Entity\Unit
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDescription', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUnit', []);
 
-        return parent::getDescription();
+        return parent::getUnit();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setDescription(string $description): \App\Entity\Lesson
+    public function setUnit(?\App\Entity\Unit $unit): \App\Entity\Lesson
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDescription', [$description]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUnit', [$unit]);
 
-        return parent::setDescription($description);
+        return parent::setUnit($unit);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getUser(): ?\App\Entity\User
+    public function getQuestions(): \Doctrine\Common\Collections\ArrayCollection
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getQuestions', []);
 
-        return parent::getUser();
+        return parent::getQuestions();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setUser(?\App\Entity\User $user): \App\Entity\Lesson
+    public function addQuestion(\App\Entity\Question $question): \App\Entity\Lesson
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', [$user]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addQuestion', [$question]);
 
-        return parent::setUser($user);
+        return parent::addQuestion($question);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function removeQuestion(\App\Entity\Question $question): \App\Entity\Lesson
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreatedAt', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeQuestion', [$question]);
 
-        return parent::getCreatedAt();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setCreatedAt(\DateTimeInterface $createdAt): \App\Entity\Lesson
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreatedAt', [$createdAt]);
-
-        return parent::setCreatedAt($createdAt);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUpdatedAt', []);
-
-        return parent::getUpdatedAt();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): \App\Entity\Lesson
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUpdatedAt', [$updatedAt]);
-
-        return parent::setUpdatedAt($updatedAt);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getSections()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSections', []);
-
-        return parent::getSections();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setSections($sections): \App\Entity\Lesson
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSections', [$sections]);
-
-        return parent::setSections($sections);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __toString(): string
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
-
-        return parent::__toString();
+        return parent::removeQuestion($question);
     }
 
 }

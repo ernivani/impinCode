@@ -67,10 +67,10 @@ class Unit extends \App\Entity\Unit implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'section', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'courses'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'section', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'lessons'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'section', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'courses'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'section', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'lessons'];
     }
 
     /**
@@ -239,34 +239,34 @@ class Unit extends \App\Entity\Unit implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getCourses(): \Doctrine\Common\Collections\ArrayCollection
+    public function getLessons()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCourses', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLessons', []);
 
-        return parent::getCourses();
+        return parent::getLessons();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function addCourse(\App\Entity\Course $course): \App\Entity\Unit
+    public function addLesson(\App\Entity\Lesson $lesson): \App\Entity\Unit
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addCourse', [$course]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addLesson', [$lesson]);
 
-        return parent::addCourse($course);
+        return parent::addLesson($lesson);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function removeCourse(\App\Entity\Course $course): \App\Entity\Unit
+    public function removeLesson(\App\Entity\Lesson $lesson): \App\Entity\Unit
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeCourse', [$course]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeLesson', [$lesson]);
 
-        return parent::removeCourse($course);
+        return parent::removeLesson($lesson);
     }
 
 }

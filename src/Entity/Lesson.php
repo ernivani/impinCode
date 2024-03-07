@@ -1,13 +1,12 @@
-<?php
-// src/Entity/Lesson.php
+<?php 
 
+// src/Entity/Lesson.php
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity
  * @ORM\Entity(repositoryClass="App\Repository\LessonRepository")
  * @ORM\Table(name="lessons")
  */
@@ -26,114 +25,75 @@ class Lesson
     private $title;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\ManyToOne(targetEntity="Unit", inversedBy="lessons")
      */
-    private $description;
+    private $unit;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="lessons")
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="lesson")
      */
-    private $user;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-    * @ORM\OneToMany(targetEntity="Section", mappedBy="lesson")
-     */
-    private $sections;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    // Getters and Setters
+    private $questions;
 
     public function __construct()
     {
-        $this->sections = new ArrayCollection();
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
+        $this->questions = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
     public function getTitle(): ?string
     {
         return $this->title;
     }
-
+    
     public function setTitle(string $title): self
     {
         $this->title = $title;
+    
         return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
-
-    public function getSections()
-    {
-        return $this->sections;
-    }
-
-    public function setSections($sections): self
-    {
-        $this->sections = $sections;
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->title;
     }
     
-
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+    
+    public function setUnit(?Unit $unit): self
+    {
+        $this->unit = $unit;
+    
+        return $this;
+    }
+    
+    public function getQuestions(): ArrayCollection
+    {
+        return $this->questions;
+    }
+    
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setLesson($this);
+        }
+    
+        return $this;
+    }
+    
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
+            if ($question->getLesson() === $this) {
+                $question->setLesson(null);
+            }
+        }
+    
+        return $this;
+    }
 }
+

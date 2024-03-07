@@ -3,7 +3,7 @@
 // src/Controller/HomeController.php
 namespace App\Controller;
 
-use App\Entity\Lesson;
+use App\Entity\Course;
 use App\Entity\Leçon;
 use Ernicani\Controllers\AbstractController;
 use Ernicani\Routing\Route;
@@ -45,15 +45,20 @@ class AppController extends AbstractController
     #[Route(path: '/learn', name: 'app')]
     public function appAction()
     {
-
-        $userLastLesson = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastLesson();
         
-        if ($userLastLesson === null) {
-            return $this->redirectToRoute('lesson_select');
+        $user = $this->getUserOrRedirect();
+        if ($user === null) {
+            return;
+        }
+
+        $userLastCourse = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastLesson();
+        
+        if ($userLastCourse === null) {
+            return $this->redirectToRoute('course_select');
         }
         
         $this->renderPage('index', 'Application', 'learn', [
-            'lesson' => $userLastLesson,
+            'course' => $userLastCourse,
         ]);
     }
 
@@ -65,16 +70,16 @@ class AppController extends AbstractController
             return;
         }
 
-        $userLastLesson = $user->getLastLesson();
-        if ($userLastLesson === null) {
+        $userLastCourse = $user->getLastCourse();
+        if ($userLastCourse === null) {
             $this->addFlash('error', 'Aucune leçon n’a été commencée');
-            $this->redirectToRoute('lesson_select');
+            $this->redirectToRoute('course_select');
             return;
         }
 
         // Assuming 'section/index' is the template path and 'section' is the page name you want to use
         $this->renderPage('section/index', 'Section', 'section', [
-            'lesson' => $userLastLesson,
+            'course' => $userLastCourse,
         ]);
     }
 
@@ -90,39 +95,40 @@ class AppController extends AbstractController
         $this->renderPage('settings', 'Settings', 'settings');
     }
 
-    #[Route(path: '/lesson', name: 'lesson')]
-    public function lessonListAction(): void
+    #[Route(path: '/course', name: 'course')]
+    public function courseListAction(): void
     {
-        $userLastLesson = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastLesson();
+        $userLastCourse = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastCourse();
 
-        if ($userLastLesson === null) {
+        if ($userLastCourse === null) {
 
             echo "Aucune leçon n'a été commencée";
             exit;
         }
         
-        $this->renderPage('lesson/index', 'Leçon', 'lesson', [
-            'lesson' => $userLastLesson,
+        $this->renderPage('course/index', 'Leçon', 'course', [
+            'course' => $userLastCourse,
         ]);
     }
 
-    #[Route(path: '/lesson/{id}', name: 'lesson_id')]
-    public function lessonAction(int $id): void
+    #[Route(path: '/course/{id}', name: 'course_id')]
+    public function courseAction(int $id): void
     {
-        $lesson = $this->entityManager->getRepository(Lesson::class)->find($id);
+        $course = $this->entityManager->getRepository(Course::class)->find($id);
 
-        if ($lesson === null) {
+        if ($course === null) {
             
 
             $this->addFlash('error', 'La leçon demandée n\'existe pas');
             $this->redirectToRoute('app');
         }
 
-        $this->renderPage('lesson/index', $lesson->getTitle(), 'lesson', [
-            'lesson' => $lesson,
+        $this->renderPage('course/index', $course->getTitle(), 'course', [
+            'course' => $course,
         ]);
 
        
     }
     
+
 }

@@ -24,9 +24,9 @@ class Question
     private $content; // Assuming 'content' holds the question text
 
     /**
-     * @ORM\ManyToOne(targetEntity="Course", inversedBy="questions")
+     * @ORM\ManyToOne(targetEntity="Lesson", inversedBy="questions")
      */
-    private $course;
+    private $lesson;
 
     /**
      * @ORM\OneToMany(targetEntity="Answer", mappedBy="question")
@@ -56,14 +56,14 @@ class Question
         return $this;
     }
 
-    public function getCourse(): ?Course
+    public function getLesson(): ?Lesson
     {
-        return $this->course;
+        return $this->lesson;
     }
 
-    public function setCourse(?Course $course): self
+    public function setLesson(?Lesson $lesson): self
     {
-        $this->course = $course;
+        $this->lesson = $lesson;
 
         return $this;
     }

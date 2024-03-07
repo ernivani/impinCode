@@ -7,10 +7,10 @@ use Doctrine\ORM\EntityRepository;
 
 class QuestionRepository extends EntityRepository
 {
-    public function findByCourseId(int $id)
+    public function findByLessonId(int $id)
     {
         return $this->createQueryBuilder('q')
-            ->where('q.course = :id')
+            ->where('q.lesson = :id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult();

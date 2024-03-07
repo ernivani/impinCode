@@ -67,10 +67,10 @@ class Course extends \App\Entity\Course implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'unit', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'questions'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'createdAt', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'sections', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'updatedAt'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'unit', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'questions'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'createdAt', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'sections', '' . "\0" . 'App\\Entity\\Course' . "\0" . 'updatedAt'];
     }
 
     /**
@@ -217,56 +217,100 @@ class Course extends \App\Entity\Course implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getUnit(): ?\App\Entity\Unit
+    public function getDescription(): ?string
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUnit', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDescription', []);
 
-        return parent::getUnit();
+        return parent::getDescription();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setUnit(?\App\Entity\Unit $unit): \App\Entity\Course
+    public function setDescription(string $description): \App\Entity\Course
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUnit', [$unit]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDescription', [$description]);
 
-        return parent::setUnit($unit);
+        return parent::setDescription($description);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getQuestions(): \Doctrine\Common\Collections\ArrayCollection
+    public function getCreatedAt(): ?\DateTimeInterface
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getQuestions', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreatedAt', []);
 
-        return parent::getQuestions();
+        return parent::getCreatedAt();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function addQuestion(\App\Entity\Question $question): \App\Entity\Course
+    public function setCreatedAt(\DateTimeInterface $createdAt): \App\Entity\Course
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addQuestion', [$question]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCreatedAt', [$createdAt]);
 
-        return parent::addQuestion($question);
+        return parent::setCreatedAt($createdAt);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function removeQuestion(\App\Entity\Question $question): \App\Entity\Course
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeQuestion', [$question]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUpdatedAt', []);
 
-        return parent::removeQuestion($question);
+        return parent::getUpdatedAt();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): \App\Entity\Course
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUpdatedAt', [$updatedAt]);
+
+        return parent::setUpdatedAt($updatedAt);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSections()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSections', []);
+
+        return parent::getSections();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setSections($sections): \App\Entity\Course
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSections', [$sections]);
+
+        return parent::setSections($sections);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
+
+        return parent::__toString();
     }
 
 }

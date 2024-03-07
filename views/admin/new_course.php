@@ -7,7 +7,7 @@
         <div class="p-6">
             <h2 class="text-lg font-semibold text-gray-900"><?= htmlspecialchars($course->getTitle()) ?></h2>
             <div class="mt-6">
-                <a href="<?= $path('admin_questions', ['id' => $course->getId()]) ?>" class="text-blue-500">
+                <a href="<?= $path('admin_sections', ['id' => $course->getId()]) ?>" class="text-blue-500">
                     Ajouter une question
                 </a>
             </div>

@@ -6,7 +6,7 @@ namespace App\Controller;
 use Ernicani\Controllers\AbstractController;
 use Ernicani\Routing\Route;
 use App\Entity\User;
-use App\Entity\Lesson;
+use App\Entity\Course;
 
 class HomeController extends AbstractController
 {
@@ -25,23 +25,23 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/lesson_select', name: 'lesson_select')]
-    public function lessonSelectAction()
+    #[Route(path: '/courses', name: 'course_select')]
+    public function courseSelectAction()
     {
         $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
-        $lessons = $this->entityManager->getRepository(Lesson::class)->findAll();
-        return $this->render('home/lesson_select', [
-            'title' => 'Sélection de leçon',
-            'lessons' => $lessons,
+        $courses = $this->entityManager->getRepository(Course::class)->findAll();
+        return $this->render('home/course_select', [
+            'title' => 'Sélection de cours',
+            'courses' => $courses,
         ]);
     }
 
-    #[Route(path: '/select_lesson/{id}', name: 'select_lesson')]
-    public function selectLessonAction(int $id)
+    #[Route(path: '/select_course/{id}', name: 'select_course')]
+    public function selectCourseAction(int $id)
     {
-        $lesson = $this->entityManager->getRepository(Lesson::class)->find($id);
+        $course = $this->entityManager->getRepository(Course::class)->find($id);
         $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
-        $user->setLastLesson($lesson);
+        $user->setLastCourse($course);
         $this->entityManager->flush();
         return $this->redirectToRoute('app');
     }

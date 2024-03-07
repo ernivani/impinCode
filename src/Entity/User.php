@@ -6,7 +6,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Entity\Lesson;
+use App\Entity\Course;
 
 
 /**
@@ -45,12 +45,12 @@ class User
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="Lesson", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Progress", mappedBy="user")
      */
-    private $lessons;
+    private $progress;
 
     /**
-     * @ORM\OneToOne(targetEntity="Lesson")
+     * @ORM\ManyToOne(targetEntity="Lesson")
      */
     private $lastLesson;
 
@@ -84,7 +84,7 @@ class User
 
     public function __construct()
     {
-        $this->lessons = new ArrayCollection();
+        $this->progress = new ArrayCollection();
         $this->isActive = true; // Set default active status
         $this->roles = ['ROLE_USER']; // Set default role
     }
@@ -211,15 +211,9 @@ class User
         return $this;
     }
 
-    public function getCourses(): Collection
+    public function getProgress(): Collection
     {
-        return $this->lessons;
-    }
-
-    public function setCourses(?Lesson $lessons): self
-    {
-        $this->lessons = $lessons;
-        return $this;
+        return $this->progress;
     }
 
     
@@ -228,13 +222,13 @@ class User
         return $this->lastLesson;
     }
 
-    public function setLastLesson(?Lesson $lastLesson): self
+    public function setLastCourse(?Lesson $lastLesson): self
     {
         $this->lastLesson = $lastLesson;
         return $this;
     }
 
-    public function deleteLastLesson()
+    public function deleteLastLesson(): self
     {
         $this->lastLesson = null;
         return $this;

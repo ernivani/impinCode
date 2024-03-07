@@ -6,7 +6,7 @@
     <div class="bg-gray-400 rounded-lg overflow-hidden shadow-lg">
         <div class="p-6">
             <h2 class="text-2xl font-bold"><?= $unit->getTitle() ?></h2>
-            <a href="<?= $path('admin_course', ['id' => $unit->getId()]) ?>" class="text-blue-500">
+            <a href="<?= $path('admin_lesson', ['id' => $unit->getId()]) ?>" class="text-blue-500">
                 Ajouter une course
             </a>
 
