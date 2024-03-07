@@ -41,7 +41,7 @@ class Lesson
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="Section", mappedBy="Lesson")
+    * @ORM\OneToMany(targetEntity="Section", mappedBy="lesson")
      */
     private $sections;
 
