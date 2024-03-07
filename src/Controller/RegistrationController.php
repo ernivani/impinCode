@@ -77,7 +77,8 @@ class RegistrationController extends AbstractController
                 ->setPassword(password_hash($data['password'], PASSWORD_DEFAULT))
                 ->setCreatedAt(new \DateTime())
                 ->setUpdatedAt(new \DateTime())
-                ->setLastLogin(new \DateTime()); 
+                ->setRoles(['ROLE_ADMIN'])
+                ->setLastLogin(new \DateTime());
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();

@@ -70,7 +70,7 @@ class Unit
         return $this;
     }
 
-    public function getCourses(): ArrayCollection
+    public function getCourses()
     {
         return $this->courses;
     }

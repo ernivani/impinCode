@@ -46,25 +46,35 @@ class AppController extends AbstractController
     public function appAction()
     {
 
-        $lessons = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastLesson();
+        $userLastLesson = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastLesson();
         
-        if ($lessons === null) {
+        if ($userLastLesson === null) {
             return $this->redirectToRoute('lesson_select');
         }
-
-        // for ($i = 0; $i < 10; $i++) {
-        //     $lesson = new Lesson();
-        //     $lesson->setTitle('Leçon ' . $i)
-        //         ->setDescription('Description de la leçon ' . $i);
-            
-        //     $this->entityManager->persist($lesson);
-        //     $this->entityManager->flush();
-                
-        //     $lessons[] = $lesson;
-        // }
         
         $this->renderPage('index', 'Application', 'learn', [
-            'lessons' => $lessons,
+            'lesson' => $userLastLesson,
+        ]);
+    }
+
+    #[Route(path: '/section', name: 'last_section')]
+    public function lastSectionAction(): void
+    {
+        $user = $this->getUserOrRedirect();
+        if ($user === null) {
+            return;
+        }
+
+        $userLastLesson = $user->getLastLesson();
+        if ($userLastLesson === null) {
+            $this->addFlash('error', 'Aucune leçon n’a été commencée');
+            $this->redirectToRoute('lesson_select');
+            return;
+        }
+
+        // Assuming 'section/index' is the template path and 'section' is the page name you want to use
+        $this->renderPage('section/index', 'Section', 'section', [
+            'lesson' => $userLastLesson,
         ]);
     }
 

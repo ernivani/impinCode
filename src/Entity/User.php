@@ -45,7 +45,7 @@ class User
     private $password;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Lesson", inversedBy="users")
+     * @ORM\OneToMany(targetEntity="Lesson", mappedBy="user")
      */
     private $lessons;
 
@@ -211,12 +211,12 @@ class User
         return $this;
     }
 
-    public function getLessons(): Collection
+    public function getCourses(): Collection
     {
         return $this->lessons;
     }
 
-    public function setLessons(?Lesson $lessons): self
+    public function setCourses(?Lesson $lessons): self
     {
         $this->lessons = $lessons;
         return $this;

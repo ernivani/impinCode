@@ -119,7 +119,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/new_course', [
             'form' => $form->render(),
-            'unitId' => $id,
+            'title' => 'Nouveau cours',
             'courses' => $this->entityManager->getRepository(Course::class)->findByUnitId($id)
         ]);
     }
