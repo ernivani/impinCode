@@ -16,4 +16,8 @@
     <?php else: ?>
         <p>Aucun cours disponible pour l'instant.</p>
     <?php endif; ?>
+
+    <?php if ($this->isGranted('ROLE_ADMIN')): ?>
+        <a href="<?= $path('admin_courses') ?>">Gérer les cours</a>
+    <?php endif; ?>
 </div>

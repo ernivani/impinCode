@@ -86,6 +86,7 @@ class AdminController extends AbstractController
             $data = $form->getData();
             $unit = new Unit();
             $unit->setTitle($data['title']);
+            $unit->setOrdre($data['ordre']);
             $unit->setDescription($data['description']);
             $unit->setSection($this->entityManager->getRepository(Section::class)->find($id));
             $this->entityManager->persist($unit);

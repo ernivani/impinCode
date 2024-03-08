@@ -22,6 +22,13 @@ class UnitType extends AbstractType
                     'class' => 'border-2 border-neutral-800 w-full py-3 rounded-lg focus:outline-none pl-4 bg-neutral-700 text-slate-300',
                 ],
             ])
+            ->add('ordre', TextField::class, [
+                'label' => 'Ordre',
+                'required' => true,
+                'attr' => [ 
+                    'class' => 'border-2 border-neutral-800 w-full py-3 rounded-lg focus:outline-none pl-4 bg-neutral-700 text-slate-300',
+                ],
+            ])
             ->add('description', TextField::class, [
                 'label' => 'Description',
                 'required' => true,
