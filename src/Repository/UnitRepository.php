@@ -15,5 +15,18 @@ class UnitRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findOneNextBySection( $sectionId,  $unitId)
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.section = :sectionId')
+            ->andWhere('s.id > :unitId')
+            ->setParameter('sectionId', $sectionId)
+            ->setParameter('unitId', $unitId)
+            ->orderBy('s.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
 

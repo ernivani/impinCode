@@ -216,13 +216,22 @@ class User
         return $this->progress;
     }
 
+    public function addProgress(Progress $progress): self
+    {
+        if (!$this->progress->contains($progress)) {
+            $this->progress[] = $progress;
+            $progress->setUser($this);
+        }
+        return $this;
+    }
+
     
     public function getLastLesson(): ?Lesson
     {
         return $this->lastLesson;
     }
 
-    public function setLastCourse(?Lesson $lastLesson): self
+    public function setLastLesson(?Lesson $lastLesson): self
     {
         $this->lastLesson = $lastLesson;
         return $this;

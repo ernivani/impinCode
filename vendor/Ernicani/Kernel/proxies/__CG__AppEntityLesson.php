@@ -67,10 +67,10 @@ class Lesson extends \App\Entity\Lesson implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'unit', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'questions'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'unit', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'questions', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'completion'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'unit', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'questions'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'unit', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'questions', '' . "\0" . 'App\\Entity\\Lesson' . "\0" . 'completion'];
     }
 
     /**
@@ -239,7 +239,7 @@ class Lesson extends \App\Entity\Lesson implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getQuestions(): \Doctrine\Common\Collections\ArrayCollection
+    public function getQuestions()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getQuestions', []);
@@ -267,6 +267,28 @@ class Lesson extends \App\Entity\Lesson implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeQuestion', [$question]);
 
         return parent::removeQuestion($question);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCompletion(): ?int
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCompletion', []);
+
+        return parent::getCompletion();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCompletion(int $completion): \App\Entity\Lesson
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCompletion', [$completion]);
+
+        return parent::setCompletion($completion);
     }
 
 }

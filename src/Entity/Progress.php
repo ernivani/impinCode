@@ -48,6 +48,7 @@ class Progress
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->validated = false;
     }
 
     public function getId(): ?int
@@ -101,6 +102,13 @@ class Progress
     public function setCompletion(int $completion): self
     {
         $this->completion = $completion;
+
+        return $this;
+    }
+
+    public function addCompletion(int $completion): self
+    {
+        $this->completion += $completion;
 
         return $this;
     }

@@ -8,15 +8,13 @@ class Router
 {
     private $routes = [];
 
-    public function addRoute($path, $action, $name)
-    {
-        $this->routes[$name] = new Route($path, $action, $name);
+    public function addRoute(string $path, $action, string $name, array $methods = ['GET']) {
+        $this->routes[$name] = new Route($path, $action, $name, $methods);
     }
 
-    public function match($uri)
-    {
+    public function match(string $uri, string $requestMethod): array {
         foreach ($this->routes as $route) {
-            if ($route->matches($uri)) {
+            if ($route->matches($uri, $requestMethod)) { // Pass the request method
                 return [$route->getAction(), $route->getParams()];
             }
         }

@@ -4,10 +4,13 @@
 namespace App\Controller;
 
 use App\Entity\Course;
+use App\Entity\Lesson;
 use App\Entity\Leçon;
 use Ernicani\Controllers\AbstractController;
 use Ernicani\Routing\Route;
 use App\Entity\User;
+use App\Entity\Question;
+use App\Entity\Unit;
 
 class AppController extends AbstractController
 {
@@ -46,40 +49,51 @@ class AppController extends AbstractController
     public function appAction()
     {
         
+        
         $user = $this->getUserOrRedirect();
         if ($user === null) {
             return;
         }
 
-        $userLastCourse = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastLesson();
         
-        if ($userLastCourse === null) {
+        $userLastLesson = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastLesson();
+
+        if ($userLastLesson === null) {
             return $this->redirectToRoute('course_select');
         }
+
+
+        $userLastSection = $userLastLesson->getUnit()->getSection();
+        
         
         $this->renderPage('index', 'Application', 'learn', [
-            'course' => $userLastCourse,
+            'section' => $userLastSection,
         ]);
     }
 
-    #[Route(path: '/section', name: 'last_section')]
-    public function lastSectionAction(): void
+    #[Route(path: '/section', name: 'choose_section')]
+    public function lastSectionAction()
     {
         $user = $this->getUserOrRedirect();
         if ($user === null) {
             return;
         }
 
-        $userLastCourse = $user->getLastCourse();
-        if ($userLastCourse === null) {
-            $this->addFlash('error', 'Aucune leçon n’a été commencée');
-            $this->redirectToRoute('course_select');
-            return;
+        $userLastLesson = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastLesson();
+        if ($userLastLesson === null) {
+            return $this->redirectToRoute('course_select');
         }
 
-        // Assuming 'section/index' is the template path and 'section' is the page name you want to use
+        $Sections = $userLastLesson->getUnit()->getSection()->getCourse()->getSections();
+
+
+        foreach ($Sections as $section) {
+            dump($section);
+        }
+
+
+
         $this->renderPage('section/index', 'Section', 'section', [
-            'course' => $userLastCourse,
         ]);
     }
 
@@ -95,40 +109,34 @@ class AppController extends AbstractController
         $this->renderPage('settings', 'Settings', 'settings');
     }
 
-    #[Route(path: '/course', name: 'course')]
-    public function courseListAction(): void
+    #[Route(path: '/lesson', name: 'lesson')]
+    public function lessonPlay()
     {
-        $userLastCourse = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastCourse();
-
-        if ($userLastCourse === null) {
+        $userLastLesson = $this->entityManager->getRepository(User::class)->find($_SESSION['user'])->getLastLesson();
+        if ($userLastLesson === null) {
 
             echo "Aucune leçon n'a été commencée";
             exit;
         }
         
-        $this->renderPage('course/index', 'Leçon', 'course', [
-            'course' => $userLastCourse,
+        $this->renderPage('lesson/index', 'Leçon', 'lesson', [
+            'lesson' => $userLastLesson,
         ]);
     }
 
-    #[Route(path: '/course/{id}', name: 'course_id')]
-    public function courseAction(int $id): void
+    #[Route(path: '/lesson/{id}', name: 'lesson_id')]
+    public function lessonPlayId(int $id)
     {
-        $course = $this->entityManager->getRepository(Course::class)->find($id);
-
-        if ($course === null) {
-            
-
-            $this->addFlash('error', 'La leçon demandée n\'existe pas');
-            $this->redirectToRoute('app');
+        $lesson = $this->entityManager->getRepository(Lesson::class)->find($id);
+        if ($lesson === null) {
+            echo "La leçon n'existe pas";
+            exit;
         }
 
-        $this->renderPage('course/index', $course->getTitle(), 'course', [
-            'course' => $course,
+        $this->renderPage('lesson/index', 'Leçon', 'lesson', [
+            'lesson' => $lesson,
         ]);
-
-       
     }
-    
+
 
 }

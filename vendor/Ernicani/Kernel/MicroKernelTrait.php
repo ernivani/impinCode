@@ -15,7 +15,7 @@ use PDO;
 
 trait MicroKernelTrait
 {
-    private $router;
+    private  $router;
     private $debug;
     private EntityManager $entityManager;
 
@@ -69,10 +69,11 @@ trait MicroKernelTrait
 
     public function handleRequest($uri)
     {
-        [$action, $params] = $this->router->match($uri); // Décomposer le tableau retourné par match
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        [$action, $params] = $this->router->match($uri, $requestMethod);
     
         if ($action) {
-            $this->executeAction(array_merge([$action], [$params])); // Passer le tableau d'action et les paramètres à executeAction
+            $this->executeAction(array_merge([$action], [$params]));
         } else {
             echo "404 Not Found\n";
         }
@@ -104,10 +105,11 @@ trait MicroKernelTrait
                     $args = $attribute->getArguments();
                     $routePath = $args['path'] ?? null;
                     $routeName = $args['name'] ?? null;
+                    $routeMethods = $args['methods'] ?? ['GET'];
 
                     if ($routePath && $routeName) {
                         $action = [$class, $method->getName()];
-                        $this->router->addRoute($routePath, $action, $routeName);
+                        $this->router->addRoute($routePath, $action, $routeName, $routeMethods);
                     }
                 }
             }

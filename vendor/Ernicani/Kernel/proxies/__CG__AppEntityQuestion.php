@@ -239,7 +239,7 @@ class Question extends \App\Entity\Question implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getAnswers(): \Doctrine\Common\Collections\ArrayCollection
+    public function getAnswers()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAnswers', []);

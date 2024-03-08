@@ -26,6 +26,11 @@ class Unit
     private $title;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Section", inversedBy="units")
      */
     private $section;
@@ -96,6 +101,19 @@ class Unit
 
         return $this;
     }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+    
 
 }
 

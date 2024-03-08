@@ -22,7 +22,7 @@ class AdminController extends AbstractController
 {
     protected \Doctrine\ORM\EntityManager $entityManager;
 
-    #[Route(path: '/admin/courses', name: 'admin_courses')]
+    #[Route(path: '/admin/courses', name: 'admin_courses', methods: ['GET', 'POST'])]
     public function createCourse()
     {
 
@@ -52,7 +52,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/admin/courses/{id}/sections', name: 'admin_sections')]
+    #[Route(path: '/admin/courses/{id}/sections', name: 'admin_sections', methods: ['GET', 'POST'])]
     public function addSection(int $id)
     {
         $form = $this->createForm(SectionType::class);
@@ -77,7 +77,7 @@ class AdminController extends AbstractController
     }
 
 
-    #[Route(path: '/admin/sections/{id}/units', name: 'admin_units')]
+    #[Route(path: '/admin/sections/{id}/units', name: 'admin_units', methods: ['GET', 'POST'])]
     public function addUnit(int $id)
     {
         $form = $this->createForm(UnitType::class);
@@ -86,6 +86,7 @@ class AdminController extends AbstractController
             $data = $form->getData();
             $unit = new Unit();
             $unit->setTitle($data['title']);
+            $unit->setDescription($data['description']);
             $unit->setSection($this->entityManager->getRepository(Section::class)->find($id));
             $this->entityManager->persist($unit);
             $this->entityManager->flush();
@@ -101,7 +102,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/admin/units/{id}/lessons', name: 'admin_lesson')]
+    #[Route(path: '/admin/units/{id}/lessons', name: 'admin_lesson', methods: ['GET', 'POST'])]
     public function addLesson(int $id)
     {
         $form = $this->createForm(LessonType::class);
@@ -110,6 +111,7 @@ class AdminController extends AbstractController
             $data = $form->getData();
             $lesson = new Lesson();
             $lesson->setTitle($data['title']);
+            $lesson->setCompletion($data['completion']);
             $lesson->setUnit($this->entityManager->getRepository(Unit::class)->find($id));
             $this->entityManager->persist($lesson);
             $this->entityManager->flush();
@@ -126,7 +128,7 @@ class AdminController extends AbstractController
 
 
 
-    #[Route(path: '/admin/lesson/{id}/questions', name: 'admin_questions')]
+    #[Route(path: '/admin/lesson/{id}/questions', name: 'admin_questions', methods: ['GET', 'POST'])]
     public function addQuestion(int $id)
     {
         $form = $this->createForm(QuestionType::class);
@@ -149,7 +151,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/admin/questions/{id}/answers', name: 'admin_answers')]
+    #[Route(path: '/admin/questions/{id}/answers', name: 'admin_answers', methods: ['GET', 'POST'])]
     public function addAnswer(int $id)
     {
         $form = $this->createForm(AnswerType::class);

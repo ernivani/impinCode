@@ -41,7 +41,8 @@ class HomeController extends AbstractController
     {
         $course = $this->entityManager->getRepository(Course::class)->find($id);
         $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
-        $user->setLastCourse($course);
+        $firstLesson = $course->getSections()[0]->getUnits()[0]->getLessons()[0];
+        $user->setLastLesson($firstLesson);
         $this->entityManager->flush();
         return $this->redirectToRoute('app');
     }

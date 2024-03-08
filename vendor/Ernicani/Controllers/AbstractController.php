@@ -78,7 +78,7 @@ abstract class AbstractController
         return $form;
     }
 
-    protected function redirectToRoute(string $routeName, array $params = [])
+    protected function redirectToRoute(string $routeName, array $params = []): void
     {
         $url = $this->router->getPathByName($routeName);
 

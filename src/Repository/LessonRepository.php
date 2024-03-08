@@ -15,5 +15,18 @@ class LessonRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findOneNextByUnit( $unitId,  $lessonId)
+    {
+        return $this->createQueryBuilder('l')
+            ->where('l.unit = :unitId')
+            ->andWhere('l.id > :lessonId')
+            ->setParameter('unitId', $unitId)
+            ->setParameter('lessonId', $lessonId)
+            ->orderBy('l.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
 

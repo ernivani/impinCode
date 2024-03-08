@@ -14,7 +14,7 @@ class RegistrationController extends AbstractController
     // Ensure the type matches with that in AbstractController
     protected \Doctrine\ORM\EntityManager $entityManager;
 
-    #[Route(path: '/login', name: 'login')]
+    #[Route(path: '/login', name: 'login', methods: ['GET', 'POST'])]
     public function loginAction()
     {
 
@@ -47,7 +47,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/register', name: 'register')]
+    #[Route(path: '/register', name: 'register', methods: ['GET', 'POST'])]
     public function registerAction()
     {
         if (isset($_SESSION['user'])) {
@@ -77,7 +77,7 @@ class RegistrationController extends AbstractController
                 ->setPassword(password_hash($data['password'], PASSWORD_DEFAULT))
                 ->setCreatedAt(new \DateTime())
                 ->setUpdatedAt(new \DateTime())
-                ->setRoles(['ROLE_ADMIN'])
+                ->setRoles(['ROLE_USER'])
                 ->setLastLogin(new \DateTime());
 
             $this->entityManager->persist($user);
@@ -95,12 +95,17 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/logout', name: 'logout')]
+    #[Route(path: '/logout', name: 'logout', methods: ['GET', 'POST'])]
     public function logoutAction()
     {
         if (!isset($_SESSION['user'])) {
             $this->redirectToRoute('login');
         }
+
+        $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
+        $user->setIsActive(false);
+        $this->entityManager->flush();
+        
         $this->addFlash('success', 'Vous avez été déconnecté');
         unset($_SESSION['user']);
         return $this->redirectToRoute('login');

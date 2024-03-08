@@ -68,7 +68,7 @@ class Question
         return $this;
     }
 
-    public function getAnswers(): ArrayCollection
+    public function getAnswers()
     {
         return $this->answers;
     }
@@ -95,5 +95,16 @@ class Question
 
         return $this;
     }
+
+    
+    public function getCorrectAnswer(): ?Answer
+    {
+        foreach ($this->answers as $answer) {
+            if ($answer->getIsCorrect()) {
+                return $answer;
+            }
+        }
+    }
+
 }
 

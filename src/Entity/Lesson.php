@@ -34,6 +34,11 @@ class Lesson
      */
     private $questions;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $completion;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -69,7 +74,7 @@ class Lesson
         return $this;
     }
     
-    public function getQuestions(): ArrayCollection
+    public function getQuestions()
     {
         return $this->questions;
     }
@@ -93,6 +98,18 @@ class Lesson
             }
         }
     
+        return $this;
+    }
+
+    public function getCompletion(): ?int
+    {
+        return $this->completion;
+    }
+
+    public function setCompletion(int $completion): self
+    {
+        $this->completion = $completion;
+
         return $this;
     }
 }
