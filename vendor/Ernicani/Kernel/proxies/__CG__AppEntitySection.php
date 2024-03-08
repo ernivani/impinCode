@@ -302,4 +302,15 @@ class Section extends \App\Entity\Section implements \Doctrine\ORM\Proxy\Proxy
         return parent::removeUnit($unit);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getFirstLesson()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFirstLesson', []);
+
+        return parent::getFirstLesson();
+    }
+
 }

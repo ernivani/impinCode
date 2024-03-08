@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UnitRepository")
@@ -19,6 +20,11 @@ class Unit
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $ordre;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -113,6 +119,30 @@ class Unit
 
         return $this;
     }
+
+    public function getOrdre(): ?int
+    {
+        return $this->ordre;
+    }
+
+    public function setOrdre(int $ordre): self
+    {
+        $this->ordre = $ordre;
+
+        return $this;
+    }
+
+    // isCompleted
+    public function isCompleted(User $user, EntityManager $entityManager): bool
+    {
+        foreach ($this->lessons as $lesson) {
+            if (!$lesson->isCompleted($user, $entityManager)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     
 
 }

@@ -99,5 +99,13 @@ class Section
         $this->units->removeElement($unit);
     }
 
+    public function getFirstLesson()
+    {
+        $firstUnit = $this->units->first();
+        if ($firstUnit === false) {
+            return null;
+        }
+        return $firstUnit->getFirstLesson();
+    }
     
 }

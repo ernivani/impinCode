@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LessonRepository")
@@ -18,6 +19,11 @@ class Lesson
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="integer", options={"default":0})
+     */
+    private $ordre;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -111,6 +117,27 @@ class Lesson
         $this->completion = $completion;
 
         return $this;
+    }
+
+    
+    public function getOrdre(): ?int
+    {
+        return $this->ordre;
+    }
+
+    public function setOrdre(int $ordre): self
+    {
+        $this->ordre = $ordre;
+        return $this;
+    }
+
+    public function isCompleted(User $user, EntityManager $entityManager): bool
+    {
+        $progress = $entityManager->getRepository(Progress::class)->findOneByUserAndLesson($user, $this);
+        if ($progress) {
+            return $progress->getCompletion() >= $this->getCompletion();
+        }
+        return false;
     }
 }
 

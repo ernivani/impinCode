@@ -1,5 +1,6 @@
 <?php include_once __DIR__ . '/../_base.php'; ?>
 
+
 <?php $userLastLesson = $user->getLastLesson(); ?> 
 
 <body class="text-gray-800 font-inter bg-neutral-950 overflow-hidden">
@@ -14,7 +15,10 @@
                     </a>
                     <span class="ml-4 text-xl font-semibold text-white"><?= $data['section']->getTitle() ?></span>
                 </div>
-                <?php foreach ($data['section']->getUnits() as $unit): ?>
+                <?php 
+                $units = $data['section']->getUnits()->toArray();
+                usort($units, function($a, $b) { return $a->getOrdre() - $b->getOrdre(); });
+                foreach ($units as $unit): ?>
                     <div class="mt-6 max-w-4xl mx-auto">
                         <div class="bg-neutral-700 shadow-lg sm:rounded-lg p-6 flex items-center justify-between">
                             <div>
@@ -24,13 +28,24 @@
                         </div>
                         <?php $lessonCount = 0; ?>
                         <div class="mt-10">
-                            <?php foreach ($unit->getLessons() as $lesson): ?>
-                                <?php $lessonCount++; ?>
-                                <?php if ($lessonCount % 3 == 1):?>
+                        <?php 
+                            $lessons = $unit->getLessons()->toArray(); 
+                            usort($lessons, function($a, $b) { return $a->getOrdre() - $b->getOrdre(); });      
+                            $allPreviousUnitsCompleted = true; // Hypothèse de départ
+                            foreach ($unit->getSection()->getUnits() as $previousUnit) {
+                                if ($previousUnit->getOrdre() < $unit->getOrdre() && !$previousUnit->isCompleted($user, $data['entityManager'])) {
+                                    $allPreviousUnitsCompleted = false;
+                                    break;
+                                }
+                            }                      
+                            foreach ($lessons as $lesson):  
+                                $lessonCount++;
+                                $isLessonUnlocked = $userLastLesson && $allPreviousUnitsCompleted && $lesson->getOrdre() <= $userLastLesson->getOrdre();
+                                if ($lessonCount % 3 == 1):?>
                                     <div class="flex justify-center">
-                                        <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center <?= $userLastLesson && $lesson->getId() <= $userLastLesson->getId() ? 'bg-green-500 hover:bg-green-700' : 'bg-gray-400'; ?>">
-                                            <?php if ($userLastLesson && $lesson->getId() <= $userLastLesson->getId()): ?>
-                                                <a href="<?= $lesson->getId() < $userLastLesson->getId() ?  $path('lesson_id', ['id' => $lesson->getId()]) :$path('lesson')  ?>"
+                                        <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center <?= $isLessonUnlocked ? 'bg-green-500 hover:bg-green-700' : 'bg-gray-400'; ?>">
+                                            <?php if ($isLessonUnlocked): ?>
+                                                <a href="<?= $lesson->getOrdre() < $userLastLesson->getOrdre() ?  $path('lesson_id', ['id' => $lesson->getOrdre()]) :$path('lesson')  ?>"
                                                  class="text-white flex items-center justify-center">
                                                     <?= htmlspecialchars($lesson->getTitle()) ?>
                                                 </a>
@@ -45,9 +60,9 @@
                                     <?php if ($lessonCount % 3 == 2): ?>
                                         <div class="flex justify-evenly  mt-6">
                                     <?php endif; ?>
-                                        <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center <?= $userLastLesson && $lesson->getId() <= $userLastLesson->getId() ? 'bg-green-500 hover:bg-green-700' : 'bg-gray-400'; ?>">
-                                            <?php if ($userLastLesson && $lesson->getId() <= $userLastLesson->getId()): ?>
-                                                <a href="<?= $lesson->getId() < $userLastLesson->getId() ?  $path('lesson_id', ['id' => $lesson->getId()]) :$path('lesson')  ?>" class="text-white flex items-center justify-center">
+                                        <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center <?= $userLastLesson && $lesson->getOrdre() <= $userLastLesson->getOrdre() ? 'bg-green-500 hover:bg-green-700' : 'bg-gray-400'; ?>">
+                                            <?php if ($userLastLesson && $lesson->getOrdre() <= $userLastLesson->getOrdre()): ?>
+                                                <a href="<?= $lesson->getOrdre() < $userLastLesson->getOrdre() ?  $path('lesson_id', ['id' => $lesson->getOrdre()]) :$path('lesson')  ?>" class="text-white flex items-center justify-center">
                                                     <?= htmlspecialchars($lesson->getTitle()) ?>
                                                 </a>
                                             <?php else: ?>
@@ -66,26 +81,7 @@
                 <?php endforeach; ?>
             </div>
         </main>
-
-        <div class="w-1/3 overflow-hidden hidden lg:block"> 
-            <div class="px-4 py-6 sm:px-6 lg:px-8">
-                <div class="max-w-7xl mx-auto">
-                    <h1 class='text-2xl font-semibold text-white'>Right Sidebar</h1>
-                    <div class='mt-6'>
-                        <div class='bg-gray-500 shadow sm:rounded-lg p-6'>
-                            <h2 class='text-lg leading-6 font-medium text-gray-900'>Section Title</h2>
-                            <p class='mt-4 max-w-2xl text-sm text-gray-900'>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
-                            </p>
-                            <div class='mt-6'>
-                                <a href='<?= htmlspecialchars($path('logout')) ?>' class='block w-full py-3 px-4 text-center bg-neutral-800 rounded-md text-white font-medium hover:bg-neutral-700 transition duration-150 mt-3'>
-                                    Se déconnecter
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
+        <?php include_once __DIR__ . '/_rightbar.php'; ?>
     </div>
 </body>

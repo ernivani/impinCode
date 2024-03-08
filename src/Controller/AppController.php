@@ -10,6 +10,7 @@ use Ernicani\Controllers\AbstractController;
 use Ernicani\Routing\Route;
 use App\Entity\User;
 use App\Entity\Question;
+use App\Entity\Section;
 use App\Entity\Unit;
 
 class AppController extends AbstractController
@@ -68,6 +69,7 @@ class AppController extends AbstractController
         
         $this->renderPage('index', 'Application', 'learn', [
             'section' => $userLastSection,
+            'entityManager' => $this->entityManager,
         ]);
     }
 
@@ -86,16 +88,42 @@ class AppController extends AbstractController
 
         $Sections = $userLastLesson->getUnit()->getSection()->getCourse()->getSections();
 
-
-        foreach ($Sections as $section) {
-            dump($section);
-        }
-
-
-
         $this->renderPage('section/index', 'Section', 'section', [
+            'sections' => $Sections,
         ]);
     }
+
+    #[Route(path: '/section/{id}', name: 'section_id')]
+    public function sectionAction(int $id)
+    {
+        $user = $this->getUserOrRedirect();
+        if ($user === null) {
+            return;
+        }
+
+        $section = $this->entityManager->getRepository(Section::class)->find($id);
+        if ($section === null) {
+            echo "La section n'existe pas";
+            exit;
+        }
+
+        $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
+
+        $firstLesson = $section->getUnits()[0]->getLessons()[0];
+        foreach ($section->getUnits() as $unit) {
+            foreach ($unit->getLessons() as $lesson) {
+                if ($lesson->getOrdre() < $firstLesson->getOrdre()) {
+                    $firstLesson = $lesson;
+                }
+            }
+        }
+        $user->setLastLesson($firstLesson);
+        $this->entityManager->flush();
+
+
+        $this->redirectToRoute('app');
+    }
+
 
     #[Route(path: '/profile', name: 'profile')]
     public function profileAction(): void

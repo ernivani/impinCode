@@ -67,10 +67,10 @@ class Unit extends \App\Entity\Unit implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'section', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'lessons'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'ordre', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'section', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'lessons'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'section', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'lessons'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'ordre', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'title', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'section', '' . "\0" . 'App\\Entity\\Unit' . "\0" . 'lessons'];
     }
 
     /**
@@ -289,6 +289,39 @@ class Unit extends \App\Entity\Unit implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDescription', [$description]);
 
         return parent::setDescription($description);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrdre(): ?int
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOrdre', []);
+
+        return parent::getOrdre();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOrdre(int $ordre): \App\Entity\Unit
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOrdre', [$ordre]);
+
+        return parent::setOrdre($ordre);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isCompleted(\App\Entity\User $user, \Doctrine\ORM\EntityManager $entityManager): bool
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isCompleted', [$user, $entityManager]);
+
+        return parent::isCompleted($user, $entityManager);
     }
 
 }

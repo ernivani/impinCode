@@ -269,4 +269,15 @@ class Question extends \App\Entity\Question implements \Doctrine\ORM\Proxy\Proxy
         return parent::removeAnswer($answer);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getCorrectAnswer(): ?\App\Entity\Answer
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCorrectAnswer', []);
+
+        return parent::getCorrectAnswer();
+    }
+
 }

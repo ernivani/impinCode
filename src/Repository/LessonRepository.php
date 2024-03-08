@@ -20,10 +20,10 @@ class LessonRepository extends EntityRepository
     {
         return $this->createQueryBuilder('l')
             ->where('l.unit = :unitId')
-            ->andWhere('l.id > :lessonId')
+            ->andWhere('l.ordre > :lessonId')
             ->setParameter('unitId', $unitId)
-            ->setParameter('lessonId', $lessonId)
-            ->orderBy('l.id', 'ASC')
+            ->setParameter('lessonId', $lessonId->getOrdre())
+            ->orderBy('l.ordre', 'ASC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
