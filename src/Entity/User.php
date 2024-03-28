@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Course;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 
 /**
@@ -276,5 +278,21 @@ class User
     }
 
 
+    public function generateAuthToken(): string
+    {
+        $key = $_ENV['JWT_SECRET_KEY'];
+        $payload = [
+            'iss' => "your_issuer", // Issuer of the token
+            'aud' => "your_audience", // Intended recipient of the token
+            'iat' => time(), // Time when JWT was issued.
+            'exp' => time() + (60*60), // Expiration time
+            'sub' => $this->getId(), // Subject of the token (the user id)
+        ];
+
+        $jwt = JWT::encode($payload, $key, 'HS256');
+
+        return $jwt;
+    }
+    
 
 }

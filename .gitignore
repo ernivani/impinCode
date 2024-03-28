@@ -13,6 +13,7 @@ vendor/phpmailer
 vendor/autoload.php
 vendor/vlucas
 vendor/Ernicani/Kernel/proxies
+vendor/firebase
 
 src/DoctrineMigrations/*.php
 
