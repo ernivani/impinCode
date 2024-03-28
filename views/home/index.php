@@ -10,7 +10,9 @@
 
             <p class="text-l text-white text-center">Viens apprendre à coder avec nous !</p>
             
-            <button class="hover:bg-light-purple bg-base-purple delay-75 duration-100 text-white text-sm font-bold rounded-2xl w-full py-3 mt-7 border-b-4 border-b-base-purple">C'EST PARTI !</button>
+            <form method="POST" action="<?= $path('create_temporary_account') ?>" >
+                <button type="submit" class="hover:bg-light-purple bg-base-purple delay-75 duration-100 text-white text-sm font-bold rounded-2xl w-full py-3 mt-7 border-b-4 border-b-base-purple">C'EST PARTI !</button>
+            </form>
             <p class="text-xs text-white text-center mt-4">Tu as déjà un compte ? <a href="<?= $path('login') ?>" class="text-base-purple hover:underline">Connecte-toi !</a></p>
         </card>
     </div>

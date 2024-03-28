@@ -22,6 +22,18 @@ class AdminController extends AbstractController
 {
     protected \Doctrine\ORM\EntityManager $entityManager;
 
+    #[Route(path: '/admin', name: 'admin_home', methods: ['GET'])]
+    public function home()
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('admin/home', [
+            'title' => 'Administration'
+        ]);
+    }
+
     #[Route(path: '/admin/courses', name: 'admin_courses', methods: ['GET', 'POST'])]
     public function createCourse()
     {

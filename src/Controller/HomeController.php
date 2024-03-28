@@ -28,7 +28,9 @@ class HomeController extends AbstractController
     #[Route(path: '/courses', name: 'course_select')]
     public function courseSelectAction()
     {
-        $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
+        if (!isset($_SESSION['user'])) {
+            $this->redirectToRoute('home');
+        }
         $courses = $this->entityManager->getRepository(Course::class)->findAll();
         return $this->render('home/course_select', [
             'title' => 'Sélection de cours',
@@ -39,6 +41,9 @@ class HomeController extends AbstractController
     #[Route(path: '/select_course/{id}', name: 'select_course')]
     public function selectCourseAction(int $id)
     {
+        if (!isset($_SESSION['user'])) {
+            $this->redirectToRoute('home');
+        }
         $course = $this->entityManager->getRepository(Course::class)->find($id);
         $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']);
         $firstLesson = $course->getSections()[0]->getUnits()[0]->getLessons()[0];

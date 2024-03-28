@@ -80,6 +80,11 @@ class User
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isTemporary = false;
+
     // Getters and Setters
 
     public function __construct()
@@ -243,6 +248,27 @@ class User
         return $this;
     }
 
+    public function getUrlimage(): ?string
+    {
+        return $this->urlimage;
+    }
+
+    public function setUrlimage(?string $urlimage): self
+    {
+        $this->urlimage = $urlimage;
+        return $this;
+    }
+
+    public function getIsTemporary(): ?bool
+    {
+        return $this->isTemporary;
+    }
+
+    public function setIsTemporary(bool $isTemporary): self
+    {
+        $this->isTemporary = $isTemporary;
+        return $this;
+    }
 
     public function __toString()
     {

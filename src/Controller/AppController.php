@@ -167,4 +167,81 @@ class AppController extends AbstractController
     }
 
 
+    #[Route(path: '/change_password', name: 'change_password', methods: ['GET', 'POST'])]
+    public function changePasswordAction(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user = $this->getUserOrRedirect();
+            if ($user === null) {
+                return;
+            }
+
+            $isTemporary = $user->getIsTemporary();
+            $currentPassword = $_POST['current_password'];
+            $newPassword = $_POST['new_password'];
+            $newPasswordConfirm = $_POST['new_password_confirm'];
+
+            if ($newPassword !== $newPasswordConfirm) {
+                $this->addFlash('error', 'Les mots de passe ne correspondent pas');
+                $this->redirectToRoute('change_password');
+                exit;
+            }
+
+            if (!password_verify($currentPassword, $user->getPassword()) && !$isTemporary) {
+                $this->addFlash('error', 'Le mot de passe actuel est incorrect');
+                $this->redirectToRoute('change_password');
+                exit;
+            }
+
+            $user->setPassword(password_hash($newPassword, PASSWORD_DEFAULT));
+
+            if ($isTemporary) {
+                $this->addFlash('success', 'Vous pouvez maintenant vous connecter avec votre nouveau mot de passe');
+                $user->setIsTemporary(false);
+            } else {
+                $this->addFlash('success', 'Le mot de passe a été changé avec succès');
+            }
+            $this->entityManager->flush();
+            $this->redirectToRoute('profile');
+        }
+        
+        $this->renderPage('change_password', 'Changer le mot de passe', 'change_password', [
+            'isTemporary' => $this->getUserOrRedirect()->getIsTemporary(),
+        ]);
+    }
+
+    // edit_profile
+    #[Route(path: '/edit_profile', name: 'edit_profile', methods: ['GET', 'POST'])]
+    public function editProfileAction(): void
+    {
+        $user = $this->getUserOrRedirect();
+        if ($user === null) {
+            return;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user->setUsername($_POST['username']);
+            $user->setEmail($_POST['email']);
+            $avatar = $_FILES['avatar'];
+            if ($avatar['size'] > 0) {
+                $target_dir = __DIR__ . '/../../public/uploads/';
+                $fileName = uniqid() . basename($avatar['name']);
+                $target_file = $target_dir . $fileName;
+                if (!move_uploaded_file($avatar['tmp_name'], $target_file)) {
+                    $this->addFlash('error', 'Erreur lors de l\'upload de l\'image');
+                    exit;
+                }
+
+                $user->setUrlimage('/uploads/' . $fileName);
+            }
+
+            
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Profil mis à jour');
+            $this->redirectToRoute('profile');
+        }
+
+        $this->renderPage('edit_profile', 'Editer le profil', 'edit_profile');
+    }
+
 }

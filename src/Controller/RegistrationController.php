@@ -112,4 +112,26 @@ class RegistrationController extends AbstractController
 
     }
 
+    #[Route(path: '/create_temporary_account', name: 'create_temporary_account', methods: ['GET', 'POST'])]
+    public function createTemporaryAccount()
+    {
+        $user = new User();
+        $user->setUsername('UtilisateurTemporaire' . rand());
+        $user->setEmail('temp_' . rand() . '@example.com');
+        $user->setPassword(password_hash('temp', PASSWORD_DEFAULT));
+        $user->setRoles(['ROLE_USER']);
+        $user->setCreatedAt(new \DateTime());
+        $user->setUpdatedAt(new \DateTime());
+        $user->setLastLogin(new \DateTime());
+        $user->setIsTemporary(true);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        
+        $_SESSION['user'] = $user->getId();
+    
+        $this->addFlash('warning', 'Attention : toute progression sera perdue à la déconnexion si vous ne sauvegardez pas votre compte.');
+    
+        return $this->redirectToRoute('home');
+    }
 }

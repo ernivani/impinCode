@@ -20,8 +20,8 @@
       }
     };
     </script>
-   <script>
-if (<?= isset($_SESSION['flash']['success']) || isset($_SESSION['flash']['error']) ? 'true' : 'false' ?>) {
+<script>
+if (<?= isset($_SESSION['flash']['success']) || isset($_SESSION['flash']['error']) || isset($_SESSION['flash']['warning']) ? 'true' : 'false' ?>) {
   document.addEventListener('DOMContentLoaded', function() {
     const flash = document.createElement('div');
     flash.classList.add('absolute', 'top-0', 'right-0', 'text-white', 'p-3', 'rounded', 'm-4', 'text-sm');
@@ -29,24 +29,26 @@ if (<?= isset($_SESSION['flash']['success']) || isset($_SESSION['flash']['error'
     if (<?= isset($_SESSION['flash']['success']) ? 'true' : 'false' ?>) {
         flash.classList.add('bg-green-500');
         flash.textContent = "<?= isset($_SESSION['flash']['success']) ? $_SESSION['flash']['success'] : '' ?>";
-    }
-    
-    if (<?= isset($_SESSION['flash']['error']) ? 'true' : 'false' ?>) {
+    } else if (<?= isset($_SESSION['flash']['error']) ? 'true' : 'false' ?>) {
         flash.classList.add('bg-red-500');
         flash.textContent = "<?= isset($_SESSION['flash']['error']) ? $_SESSION['flash']['error'] : '' ?>";
+    } else if (<?= isset($_SESSION['flash']['warning']) ? 'true' : 'false' ?>) {
+        flash.classList.add('bg-yellow-500');
+        flash.textContent = "<?= isset($_SESSION['flash']['warning']) ? $_SESSION['flash']['warning'] : '' ?>";
     }
     
     document.body.appendChild(flash);
 
     setTimeout(() => {
-      flash.classList.add('slide-out-right'); // Start sliding out
+      flash.classList.add('slide-out-right'); // Assurez-vous que cette classe effectue une animation de sortie vers la droite
       setTimeout(() => {
-        flash.remove(); // Remove after animation
-      }, 500); // This should match the duration of the animation
-    }, 5000);
+        flash.remove(); // Supprime le message après l'animation
+      }, 500); // Cette durée devrait correspondre à celle de l'animation
+    }, 10000); // Temps d'affichage du message avant début de l'animation de sortie
     
   });
 }
 </script>
+
 
 </head>

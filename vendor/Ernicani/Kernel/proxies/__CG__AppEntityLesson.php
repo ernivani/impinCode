@@ -324,4 +324,15 @@ class Lesson extends \App\Entity\Lesson implements \Doctrine\ORM\Proxy\Proxy
         return parent::isCompleted($user, $entityManager);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getCurrentCompletion(\App\Entity\User $user, \Doctrine\ORM\EntityManager $entityManager): int
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCurrentCompletion', [$user, $entityManager]);
+
+        return parent::getCurrentCompletion($user, $entityManager);
+    }
+
 }

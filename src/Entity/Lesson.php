@@ -139,5 +139,15 @@ class Lesson
         }
         return false;
     }
+
+    public function getCurrentCompletion(User $user, EntityManager $entityManager): int
+    {
+        $progress = $entityManager->getRepository(Progress::class)->findOneBy([
+            'user' => $user,
+            'lesson' => $this
+        ]);
+
+        return $progress ? $progress->getCompletion() : 0;
+    }
 }
 

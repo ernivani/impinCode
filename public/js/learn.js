@@ -1,4 +1,5 @@
 let currentQuestionIndex = 0;
+let answersubmitted = false;
 
 const questionsContainer = document.getElementById("question-container");
 const nextQuestionButton = document.getElementById("next-question");
@@ -6,6 +7,7 @@ const nextQuestionButton = document.getElementById("next-question");
 const wrongQuestions = [];
 
 function displayQuestion(index) {
+    answersubmitted = false;
     const question = questions[index];
 
     if (question) {
@@ -17,6 +19,7 @@ function displayQuestion(index) {
 }
 
 function displayQuestionWrongQuestions(index) {
+    answersubmitted = false;
     const questionId = wrongQuestions[index];
     wrongQuestions.splice(index, 1);
     const question = questions.find((question) => question.id == questionId);
@@ -60,6 +63,7 @@ function fetchAnswers(questionId) {
         });
 }
 function checkAnswer(questionId, answerId) {
+    if (answersubmitted) return;
     fetch("/validate-answer", {
         method: "POST",
         headers: {
@@ -100,6 +104,7 @@ function checkAnswer(questionId, answerId) {
             if (!data.correct) {
                 wrongQuestions.push(questionId);
             }
+            answersubmitted = true;
             nextQuestionButton.style.display = "block";
         });
 }
@@ -137,7 +142,8 @@ nextQuestionButton.addEventListener("click", function () {
                 .then((data) => {
                     if (data.success) {
                         questionsContainer.innerHTML +=
-                            "<p>Votre progression a été mise à jour !</p>";
+                            `<p>Votre progression a été mise à jour !</p>
+                            <a class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href='/learn'>Retourner à la liste des leçons</a>`;
                     }
                 })
                 .catch((error) => {
