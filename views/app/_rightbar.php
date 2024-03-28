@@ -1,3 +1,13 @@
+<?php
+$timezone = new DateTimeZone('Europe/Paris'); // Remplacez 'Europe/Paris' par votre timezone
+$lastLogin = $user->getLastLogin();
+$createdAt = $user->getCreatedAt();
+
+$lastLogin->setTimezone($timezone);
+$createdAt->setTimezone($timezone);
+
+?>
+
 <div class="w-1/4 overflow-hidden hidden lg:block">
     <div class="px-4 py-6 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
@@ -19,8 +29,8 @@
                     </div>
                 </div>
                 <div class='mt-4 text-sm text-gray-400'>
-                    <p>Dernière connexion : <?= $user->getLastLogin()->format('d/m/Y H:i') ?></p>
-                    <p>Compte créé le : <?= $user->getCreatedAt()->format('d/m/Y') ?></p>
+                    <p>Dernière connexion : <?= $lastLogin->format('d/m/Y H:i') ?></p>
+                    <p>Compte créé le : <?= $createdAt->format('d/m/Y') ?></p>
                 </div>
                 
                 <?php if ($this->isGranted('ROLE_ADMIN')): ?>
