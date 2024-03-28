@@ -53,6 +53,8 @@ class AppController extends AbstractController
         
         $user = $this->getUserOrRedirect();
         if ($user === null) {
+            session_destroy();
+            $this->redirectToRoute('login');
             return;
         }
 
