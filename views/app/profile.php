@@ -1,5 +1,13 @@
 <?php include_once __DIR__ . '/../_base.php'; ?>
 
+<?php
+$timezone = new DateTimeZone('Europe/Paris'); // Remplacez 'Europe/Paris' par votre timezone
+$lastLogin = $user->getLastLogin();
+
+$lastLogin->setTimezone($timezone);
+
+?>
+
 <body class="text-gray-800 font-inter bg-neutral-950 overflow-hidden">
     <div class="flex h-screen overflow-hidden">
         <?php include_once __DIR__ . '/_sidebar.php'; ?>
@@ -23,7 +31,7 @@
                             <h2 class="text-xl font-semibold text-white">Informations Personnelles</h2>
                             <p class="text-gray-400">Nom d'utilisateur: <?= htmlspecialchars($user->getUsername()) ?></p>
                             <p class="text-gray-400">Email: <?= htmlspecialchars($user->getEmail()) ?></p>
-                            <p class="text-gray-400">Dernière connexion: <?= $user->getLastLogin()->format('d/m/Y H:i') ?></p>
+                            <p class="text-gray-400">Dernière connexion: <?= $lastLogin->format('d/m/Y H:i') ?></p>
                         </div>
                     </div>
 
