@@ -1,4 +1,4 @@
-<div class="w-1/3 overflow-hidden hidden lg:block">
+<div class="w-1/4 overflow-hidden hidden lg:block">
     <div class="px-4 py-6 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
             <h1 class='text-2xl font-semibold text-white'>Mon compte</h1>

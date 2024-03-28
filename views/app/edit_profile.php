@@ -23,7 +23,7 @@
                             </div>
                             <div>
                                 <label for="avatar" class="block text-sm font-medium text-gray-400">Avatar</label>
-                                <input type="file" name="avatar" id="avatar" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-base-purple focus:border-base-purple sm:text-sm">
+                                <input type="file" name="avatar" id="avatar" accept="image/png, image/gif, image/jpeg" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-base-purple focus:border-base-purple sm:text-sm">
                             </div>
                             <div>
                                 <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-150">Enregistrer</button>
