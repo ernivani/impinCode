@@ -22,11 +22,18 @@ class LessonController extends AbstractController
         $questionId = $data['questionId'];
         $answerId = $data['answerId'];
 
-        $correctAnswerId = $this->entityManager->getRepository(Question::class)->find($questionId)->getCorrectAnswer()->getId();
+        $correctAnswersId = $this->entityManager->getRepository(Question::class)->find($questionId)->getCorrectAnswers();
+
+
+        if (in_array($answerId, $correctAnswersId)) {
+            $correct = true;
+        } else {
+            $correct = false;
+        }
 
 
         header('Content-Type: application/json');
-        echo json_encode(['correctAnswerId' => $correctAnswerId, 'correct' => $data['answerId'] == $correctAnswerId]);
+        echo json_encode(['correctAnswerId' => $correctAnswersId[0], 'correct' => $data['answerId'] == $correct]);
         exit;
     }
 

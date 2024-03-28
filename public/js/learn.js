@@ -6,17 +6,6 @@ const nextQuestionButton = document.getElementById("next-question");
 
 const wrongQuestions = [];
 
-function displayQuestion(index) {
-    answersubmitted = false;
-    const question = questions[index];
-
-    if (question) {
-        questionsContainer.innerHTML = `<p>${question.content}</p><div class="answers" data-question-id="${question.id}"></div>`;
-        nextQuestionButton.style.display = "none";
-
-        fetchAnswers(question.id);
-    }
-}
 
 function displayQuestionWrongQuestions(index) {
     answersubmitted = false;
@@ -33,6 +22,7 @@ function displayQuestionWrongQuestions(index) {
 }
 
 function displayQuestion(index) {
+    answersubmitted = false;
     if (index < questions.length) {
         const question = questions[index];
         questionsContainer.innerHTML = `<p>${question.content}</p><div class="answers" data-question-id="${question.id}"></div>`;
@@ -63,6 +53,7 @@ function fetchAnswers(questionId) {
         });
 }
 function checkAnswer(questionId, answerId) {
+    console.log(answersubmitted);
     if (answersubmitted) return;
     fetch("/validate-answer", {
         method: "POST",

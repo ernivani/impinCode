@@ -97,13 +97,15 @@ class Question
     }
 
     
-    public function getCorrectAnswer(): ?Answer
+    public function getCorrectAnswers(): array
     {
+        $correctAnswers = [];
         foreach ($this->answers as $answer) {
             if ($answer->getIsCorrect()) {
-                return $answer;
+                $correctAnswers[] = $answer->getId();
             }
         }
+        return $correctAnswers;
     }
 
 }
