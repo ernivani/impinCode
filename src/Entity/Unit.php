@@ -143,6 +143,26 @@ class Unit
         return true;
     }
 
+
+    public  function getCurrentCompletion(User $user, EntityManager $entityManager): int
+    {
+        $completedLessonsCount = 0;
+        foreach ($this->lessons as $lesson) {
+            if ($lesson->isCompleted($user, $entityManager)) {
+                $completedLessonsCount++;
+            }
+        }
+        return $completedLessonsCount;
+    }
+
+    public function getCompletedLessonsCountByAllUsers(EntityManager $entityManager): int
+    {
+        $total = 0;
+        foreach ($this->lessons as $lesson) {
+            $total += $lesson->getCompletedCountByAllUsers($entityManager);
+        }
+        return $total;
+    }
     
 
 }

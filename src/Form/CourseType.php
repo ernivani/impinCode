@@ -19,7 +19,7 @@ class CourseType extends AbstractType
                 'label' => 'Titre',
                 'required' => true,
                 'attr' => [ 
-                    'class' => 'border-2 border-neutral-800 w-full py-3 rounded-lg focus:outline-none pl-4 bg-neutral-700 text-slate-300',
+                    'class' => 'border-2 border-neutral-800 w-full py-3 rounded-lg focus:outline-none pl-4 bg-neutral-700 text-white',
                 ],
             ])
             
@@ -27,7 +27,7 @@ class CourseType extends AbstractType
                 'label' => 'Description',
                 'required' => true,
                 'attr' => [ 
-                    'class' => 'border-2 border-neutral-800 w-full py-3 rounded-lg focus:outline-none pl-4 bg-neutral-700 text-slate-300',
+                    'class' => 'border-2 border-neutral-800 w-full py-3 rounded-lg focus:outline-none pl-4 bg-neutral-700 text-white',
                 ],
             ])
             ->add('submit', SubmitField::class, [

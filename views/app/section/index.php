@@ -1,4 +1,23 @@
-<?php $sections = $data['sections']; ?>
+<?php $sections = $data['sections']; 
+$sectionsProgress = [];
+
+foreach ($sections as $section) {
+    $totalLessons = count($section->getLessons());
+    $completedLessons = $section->getCurrentCompletion($user, $data['entityManager']);
+
+
+    $progressPercentage = 0;
+    if ($totalLessons > 0) {
+        $progressPercentage = ($completedLessons / $totalLessons) * 100;
+    }
+
+    $sectionsProgress[$section->getId()] = $progressPercentage;
+
+
+
+}
+
+?>
 
 <?php include_once __DIR__ . '/../../_base.php'; // chemin à ajuster selon votre structure de dossiers ?>
 
@@ -14,6 +33,9 @@
                         <?php foreach ($sections as $section): ?>
                             <div class="bg-neutral-700 shadow-lg sm:rounded-lg p-6">
                                 <h2 class="text-lg font-semibold text-white"><?= htmlspecialchars($section->getTitle()) ?></h2>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 my-4">
+                                    <div class="bg-green-600 h-2.5 rounded-full" style="width: <?= $sectionsProgress[$section->getId()] ?>%;"></div>
+                                </div>
                                 <a href="<?= htmlspecialchars($path('section_id', ['id' => $section->getId()])) ?>" class="mt-4 inline-block bg-gray-500 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded">
                                     Voir les leçons
                                 </a>

@@ -149,5 +149,21 @@ class Lesson
 
         return $progress ? $progress->getCompletion() : 0;
     }
+
+    public function getCompletedCountByAllUsers(EntityManager $entityManager): int
+    {
+        $progresses = $entityManager->getRepository(Progress::class)->findBy([
+            'lesson' => $this
+        ]);
+
+        $completedCount = 0;
+        foreach ($progresses as $progress) {
+            if ($progress->getCompletion() >= $this->getCompletion()) {
+                $completedCount++;
+            }
+        }
+
+        return $completedCount;
+    }
 }
 

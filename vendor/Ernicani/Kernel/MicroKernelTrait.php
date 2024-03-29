@@ -75,6 +75,20 @@ trait MicroKernelTrait
         if ($action) {
             $this->executeAction(array_merge([$action], [$params]));
         } else {
+            $this->redirectTo404();
+        }
+    }
+
+    
+    private function redirectTo404()
+    {
+        $uri = '/404';
+        $requestMethod = 'GET';
+        [$action, $params] = $this->router->match($uri, $requestMethod);
+        if ($action) {
+            $this->executeAction(array_merge([$action], [$params]));
+        } else {
+            http_response_code(404);
             echo "404 Not Found\n";
         }
     }

@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SectionRepository")
@@ -106,6 +107,41 @@ class Section
             return null;
         }
         return $firstUnit->getFirstLesson();
+    }
+
+    public function getCurrentCompletion(User $user, EntityManager $entityManager)
+    {
+        $totalCompletion = 0;
+        $totalUnits = 0;
+        foreach ($this->units as $unit) {
+            $totalUnits++;
+            $totalCompletion += $unit->getCurrentCompletion($user, $entityManager);
+        }
+        if ($totalUnits === 0) {
+            return 0;
+        }
+        return round($totalCompletion / $totalUnits);
+
+    }
+    
+    public function getLessons()
+    {
+        $lessons = [];
+        foreach ($this->units as $unit) {
+            $unitLessons = $unit->getLessons()->toArray();
+            $lessons = array_merge($lessons, $unitLessons);
+        }
+        return $lessons;
+    }
+
+
+    public function getCompletedLessonsCountByAllUsers(EntityManager $entityManager)
+    {
+        $total = 0;
+        foreach ($this->units as $unit) {
+            $total += $unit->getCompletedLessonsCountByAllUsers($entityManager);
+        }
+        return $total;
     }
     
 }

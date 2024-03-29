@@ -2,7 +2,6 @@
 
 <body class="bg-neutral-950 text-white font-sans leading-normal tracking-normal">
     <div class="relative min-h-screen flex flex-col justify-center items-center">
-        <!-- Bouton de retour (croix) -->
         <a href="<?= $path('app') ?>" class="absolute top-4 left-4 bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-full">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />

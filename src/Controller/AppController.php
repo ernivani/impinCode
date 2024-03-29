@@ -92,6 +92,7 @@ class AppController extends AbstractController
 
         $this->renderPage('section/index', 'Section', 'section', [
             'sections' => $Sections,
+            'entityManager' => $this->entityManager,
         ]);
     }
 

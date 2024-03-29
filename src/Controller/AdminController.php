@@ -17,6 +17,7 @@ use Ernicani\Controllers\AbstractController;
 use Ernicani\Routing\Route;
 use App\Entity\Lesson;
 use App\Form\LessonType;
+use App\Entity\User;
 
 class AdminController extends AbstractController
 {
@@ -60,13 +61,19 @@ class AdminController extends AbstractController
         return $this->render('admin/new_course', [
             'title' => 'Nouvelle leçon',
             'form' => $form->render(),
-            'courses' => $this->entityManager->getRepository(Course::class)->findAll()
+            'courses' => $this->entityManager->getRepository(Course::class)->findAll(),
+            'entityManager' => $this->entityManager,
+            'numberOfUsers' => $this->entityManager->getRepository(User::class)->countUsers()
         ]);
     }
 
     #[Route(path: '/admin/courses/{id}/sections', name: 'admin_sections', methods: ['GET', 'POST'])]
     public function addSection(int $id)
     {
+        
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home');
+        }
         $form = $this->createForm(SectionType::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,6 +99,10 @@ class AdminController extends AbstractController
     #[Route(path: '/admin/sections/{id}/units', name: 'admin_units', methods: ['GET', 'POST'])]
     public function addUnit(int $id)
     {
+        
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home');
+        }
         $form = $this->createForm(UnitType::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -118,6 +129,10 @@ class AdminController extends AbstractController
     #[Route(path: '/admin/units/{id}/lessons', name: 'admin_lesson', methods: ['GET', 'POST'])]
     public function addLesson(int $id)
     {
+        
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home');
+        }
         $form = $this->createForm(LessonType::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -136,6 +151,7 @@ class AdminController extends AbstractController
         return $this->render('admin/new_lesson', [
             'form' => $form->render(),
             'title' => 'Nouveau cours',
+            'unitId' => $id,
             'lessons' => $this->entityManager->getRepository(Lesson::class)->findByUnitId($id)
         ]);
     }
@@ -145,6 +161,10 @@ class AdminController extends AbstractController
     #[Route(path: '/admin/lesson/{id}/questions', name: 'admin_questions', methods: ['GET', 'POST'])]
     public function addQuestion(int $id)
     {
+        
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home');
+        }
         $form = $this->createForm(QuestionType::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -160,7 +180,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin/new_question', [
             'form' => $form->render(),
-            'unitId' => $id,
+            'lessonId' => $id,
             'questions' => $this->entityManager->getRepository(Question::class)->findByLessonId($id)
         ]);
     }
@@ -168,6 +188,10 @@ class AdminController extends AbstractController
     #[Route(path: '/admin/questions/{id}/answers', name: 'admin_answers', methods: ['GET', 'POST'])]
     public function addAnswer(int $id)
     {
+        
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home');
+        }
         $form = $this->createForm(AnswerType::class);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -4,6 +4,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -121,4 +122,22 @@ class Course
     }
     
 
+    public function getTotalLessonsCount()
+    {
+        $total = 0;
+        foreach ($this->sections as $section) {
+            $total += count($section->getLessons());
+        }
+        return $total;
+    }
+
+    
+    public function getCompletedLessonsCountByAllUsers(EntityManager $entityManager)
+    {
+        $total = 0;
+        foreach ($this->sections as $section) {
+            $total += $section->getCompletedLessonsCountByAllUsers($entityManager);
+        }
+        return $total;
+    }
 }
