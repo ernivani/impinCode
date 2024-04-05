@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Page d'accueil -->
+    <url>
+        <loc>https://code.impin.fr/</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <!-- Page d'apprentissage principale -->
+    <url>
+        <loc>https://code.impin.fr/learn</loc>
+        <changefreq>daily</changefreq>
+        <priority>2.0</priority>
+    </url>
+    <!-- Sélection de section - dynamique en fonction des sections disponibles -->
+    <url>
+        <loc>https://code.impin.fr/section</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://code.impin.fr/profile</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://code.impin.fr/settings</loc>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>https://code.impin.fr/login</loc>
+        <changefreq>daily</changefreq>
+    </url>
+    <url>
+        <loc>https://code.impin.fr/register</loc>
+        <changefreq>daily</changefreq>
+    </url>
+</urlset>
