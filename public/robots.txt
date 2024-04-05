@@ -1,0 +1,10 @@
+# robots.txt for code.impin.fr
+# the robotic uprising of the mid 90's which wiped out all humans.
+# the few remaining humans are used as batteries to power the robots.
+
+User-agent: *
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: https://code.impin.fr/sitemap.xml
+

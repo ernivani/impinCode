@@ -1,13 +1,34 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- SEO Optimizations -->
+    <title><?= isset($title) ? htmlspecialchars($title) . ' - ' : '' ?>ImpinCode</title>
+    <meta name="description" content="ImpinCode est un site de tutoriels pour apprendre la programmation et le développement.">
+    <meta name="keywords" content="programmation, apprentissage, code, développement, tutoriels">
+    <link rel="canonical" href="https://code.impin.fr<?= htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://code.impin.fr<?= htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
+    <meta property="og:title" content="<?= isset($title) ? htmlspecialchars($title) : 'Page Title' ?> - ImpinCode">
+    <meta property="og:description" content="ImpinCode est un site de tutoriels pour apprendre la programmation et le développement.">
+    
+    <!-- Stylesheets -->
     <link href="https://cdn.tailwindcss.com" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
-    <title><?php if (isset($title)) echo $title . ' - ' ?>ImpinCode</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/img/logo.svg">
+    
+    <!-- JavaScript -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/js/main.js" defer></script>
+    
+    <!-- Tailwind CSS Configuration (if necessary) -->
     <script>
     tailwind.config = {
       theme: {
@@ -19,8 +40,7 @@
         }
       }
     };
-    </script>
-<script>
+    
 if (<?= isset($_SESSION['flash']['success']) || isset($_SESSION['flash']['error']) || isset($_SESSION['flash']['warning']) ? 'true' : 'false' ?>) {
   document.addEventListener('DOMContentLoaded', function() {
     const flash = document.createElement('div');
