@@ -1,10 +1,8 @@
 <?php
-$timezone = new DateTimeZone('Europe/Paris'); // Remplacez 'Europe/Paris' par votre timezone
 $lastLogin = $user->getLastLogin();
 $createdAt = $user->getCreatedAt();
 
-$lastLogin->setTimezone($timezone);
-$createdAt->setTimezone($timezone);
+date_default_timezone_set('Europe/Paris');
 
 ?>
 
