@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="utf-8">
@@ -8,7 +8,12 @@
     <!-- SEO Optimizations -->
     <title><?= isset($title) ? htmlspecialchars($title) . ' - ' : '' ?>ImpinCode</title>
     <meta name="description" content="ImpinCode est un site de tutoriels pour apprendre la programmation et le développement.">
-    <meta name="keywords" content="programmation, apprentissage, code, développement, tutoriels">
+    <!--
+    <meta name="keywords" content="mot-clé 1, mot-clé 2, mot-clé 3" />
+    -->
+    <meta name="author" content="ImpinCode">
+    <meta name="keywords" content="ImpinCode, tutoriels, programmation, développement, code, informatique, programmation web, programmation mobile, développement web, développement mobile, impin, codeimpin">
+
     <link rel="canonical" href="https://code.impin.fr<?= htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
     
     <!-- Open Graph / Facebook -->
@@ -26,7 +31,11 @@
     
     <!-- JavaScript -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="/js/main.js" defer></script>
+
+    <!-- plausible stats -->
+    <script defer data-domain="code.impin.fr" src="https://plausible.io/js/script.js"></script>
+
+    
     
     <!-- Tailwind CSS Configuration (if necessary) -->
     <script>
@@ -69,6 +78,19 @@ if (<?= isset($_SESSION['flash']['success']) || isset($_SESSION['flash']['error'
   });
 }
 </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-34FBSHPY8K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-34FBSHPY8K');
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5901649144497688"
+     crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-5901649144497688">
 
 
 </head>
