@@ -34,9 +34,7 @@ class ApiController extends AbstractController
         if (password_verify($data['password'], $user->getPassword())) {
             $user->setLastLogin(new \DateTime()); 
             $this->entityManager->flush();
-
-            // Consider using a more secure method to generate and send a token
-            $_SESSION['user'] = $user->getId();
+            
             return $this->jsonResponse(['success' => 'Vous êtes connecté', 'token' => $user->generateAuthToken()]);
         } else {
             return $this->jsonResponse(['error' => 'Identifiant ou mot de passe incorrect'], 401);
@@ -74,6 +72,7 @@ class ApiController extends AbstractController
                 'user' => [
                     'id' => $user->getId(),
                     'username' => $user->getUsername(),
+                    'email' => $user->getEmail(),
                 ]
             ]);
 
