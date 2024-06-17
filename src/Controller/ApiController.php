@@ -6,6 +6,7 @@ namespace App\Controller;
 use Ernicani\Controllers\AbstractController;
 use Ernicani\Routing\Route;
 use App\Entity\User;
+use App\Entity\Course;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -82,5 +83,103 @@ class ApiController extends AbstractController
             return $this->jsonResponse(['error' => 'Token invalide ou expiré'], 401);
         }
     }
+
+    #[Route(path: '/api/my-course', name: 'api_register', methods: ['POST'])]
+    public function myCourseAction()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!isset($data['token'])) {
+            return $this->jsonResponse(['error' => 'Token requis'], 400);
+        }
+
+        $token = $data['token'];
+
+        
+        try {
+
+            $key = $_ENV['JWT_SECRET_KEY'];
+            $decoded = JWT::decode($token, new Key($key, 'HS256'));
+        } catch (\Exception $e) {
+            return $this->jsonResponse(['error' => 'Token invalide ou expiré'], 401);
+        }
+
+        
+        // Récupérer l'utilisateur à partir de l'ID contenu dans le token
+        $userId = $decoded->sub;
+        $user = $this->entityManager->getRepository(User::class)->find($userId);
+
+        if (!$user) {
+            return $this->jsonResponse(['error' => 'Utilisateur non trouvé'], 404);
+        }
+
+        $userLastLesson = $this->entityManager->getRepository(User::class)->find($userId)->getLastLesson();
+
+        if ($userLastLesson === null) {
+            return $this->jsonResponse(['error' => 'Aucune leçon n\'a été commencée'], 404);
+        }
+
+        $course = $userLastLesson->getUnit()->getSection()->getCourse();
+
+        return $this->jsonResponse([
+            'success' => true,
+            'course' => [
+                'id' => $course->getId(),
+                'title' => $course->getTitle(),
+                'description' => $course->getDescription(),
+            ]
+        ]);
+    }
+
+    // from the course id get the sections
+    #[Route(path: '/api/course/{id}/sections', name: 'api_course_sections', methods: ['GET'])]
+    public function getSectionsAction($id)
+    {
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!isset($data['token'])) {
+            return $this->jsonResponse(['error' => 'Token requis'], 400);
+        }
+        $token = $data['token'];
+
+        try {
+
+            $key = $_ENV['JWT_SECRET_KEY'];
+            $decoded = JWT::decode($token, new Key($key, 'HS256'));
+        }
+        catch (\Exception $e) {
+            return $this->jsonResponse(['error' => 'Token invalide ou expiré'], 401);
+        }
+        $userId = $decoded->sub;
+        $user = $this->entityManager->getRepository(User::class)->find($userId);
+       
+
+        if (!$user) {
+            return $this->jsonResponse(['error' => 'Utilisateur non trouvé'], 404);
+        }
+        
+        $course = $this->entityManager->getRepository(Course::class)->find($id);
+
+        if (!$course) {
+            return $this->jsonResponse(['error' => 'Cours non trouvé'], 404);
+        }
+
+        $sections = $course->getSections();
+
+        $sectionsData = [];
+        foreach ($sections as $section) {
+            $sectionsData[] = [
+                'id' => $section->getId(),
+                'title' => $section->getTitle(),
+            ];
+        }
+
+        return $this->jsonResponse([
+            'success' => true,
+            'sections' => $sectionsData,
+        ]);
+    }
+
 
 }
