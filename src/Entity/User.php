@@ -285,7 +285,7 @@ class User
             'iss' => "your_issuer", // Issuer of the token
             'aud' => "your_audience", // Intended recipient of the token
             'iat' => time(), // Time when JWT was issued.
-            'exp' => time() + (60*60), // Expiration time
+            'exp' => time() + 60*60*24*30, // Expiration time: 1 month
             'sub' => $this->getId(), // Subject of the token (the user id)
         ];
 
