@@ -73,6 +73,7 @@ class ApiController extends AbstractController
                 'user' => [
                     'id' => $user->getId(),
                     'username' => $user->getUsername(),
+                    'email' => $user->getEmail(),
                 ]
             ]);
 
