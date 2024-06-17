@@ -36,7 +36,6 @@ class ApiController extends AbstractController
             $this->entityManager->flush();
 
             // Consider using a more secure method to generate and send a token
-            $_SESSION['user'] = $user->getId();
             return $this->jsonResponse(['success' => 'Vous êtes connecté', 'token' => $user->generateAuthToken()]);
         } else {
             return $this->jsonResponse(['error' => 'Identifiant ou mot de passe incorrect'], 401);

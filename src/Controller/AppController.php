@@ -223,7 +223,17 @@ class AppController extends AbstractController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $user->setUsername($_POST['username']);
+
+            // check if the username is already taken
+            $username = $_POST['username'];
+            $userWithUsername = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
+            if ($userWithUsername !== null && $userWithUsername->getId() !== $user->getId()) {
+                $this->addFlash('error', 'Ce nom d\'utilisateur est déjà pris');
+                $this->redirectToRoute('edit_profile');
+                exit;
+            }
+
+            $user->setUsername($username);
             $user->setEmail($_POST['email']);
             $avatar = $_FILES['avatar'];
             if ($avatar['size'] > 0) {
