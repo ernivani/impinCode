@@ -18,6 +18,12 @@ if ($_ENV['SSL_CERT_PATH']) {
     ];
 }
 
+if (($_ENV['DB_DRIVER'] ?? 'pdo_mysql') === 'pdo_sqlite') {
+    return $_ENV['DB_NAME'] === ':memory:'
+        ? ['driver' => 'pdo_sqlite', 'memory' => true]
+        : ['driver' => 'pdo_sqlite', 'path' => $_ENV['DB_NAME']];
+}
+
 return [
 
     'driver' => 'pdo_mysql',

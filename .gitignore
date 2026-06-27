@@ -2,18 +2,7 @@ accestoken
 
 .env
 
-vendor/doctrine
-vendor/composer
-vendor/bin
-vendor/graham-campbell
-vendor/symfony
-vendor/phpoption
-vendor/psr
-vendor/phpmailer
-vendor/autoload.php
-vendor/vlucas
-vendor/Ernicani/Kernel/proxies
-vendor/firebase
+vendor/*
 
 src/DoctrineMigrations/*.php
 
@@ -23,3 +12,5 @@ npm-debug.log
 
 # public / uploads
 public/uploads/*
+
+*.db
